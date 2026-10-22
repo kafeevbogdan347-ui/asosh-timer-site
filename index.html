@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>АСОШ Таймер — умный дневник АСОШ №2</title>
+  <meta name="description" content="Расписание уроков и звонков, таймер до конца урока, домашние задания, погода и актировки в Аргаяше — в одном приложении для учеников АСОШ №2." />
+  <meta property="og:title" content="АСОШ Таймер — умный дневник АСОШ №2" />
+  <meta property="og:description" content="Расписание, звонки, домашка и актировки — всё в одном приложении для учеников АСОШ №2." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#060d1f" />
+  <link rel="icon" type="image/svg+xml" href="/icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="#top">
+        <img src="/icon.svg" alt="" width="32" height="32" />
+        <span>АСОШ Таймер</span>
+      </a>
+      <nav class="nav-links" aria-label="Разделы">
+        <a href="#features">Возможности</a>
+        <a href="#download">Скачать</a>
+        <a href="#faq">Вопросы</a>
+      </nav>
+      <a class="btn btn-small" href="#download">Установить</a>
+    </div>
+  </header>
+
+  <main id="top">
+    <!-- Hero -->
+    <section class="hero">
+      <div class="wrap hero-inner">
+        <div class="hero-text">
+          <p class="eyebrow">Для учеников АСОШ №2 · с. Аргаяш</p>
+          <h1>Вся школа <span class="accent">в&nbsp;твоём телефоне</span></h1>
+          <p class="lead">
+            Расписание уроков и звонков, таймер до конца урока, домашние задания,
+            погода и актировки — в одном приложении. Бесплатно и без рекламы.
+          </p>
+          <div class="hero-cta">
+            <a class="btn" href="#download">Скачать приложение</a>
+            <a class="btn btn-ghost" data-link="app" href="#download">Открыть в браузере</a>
+          </div>
+          <ul class="hero-points">
+            <li>Android, iPhone и компьютер</li>
+            <li>Работает при слабом интернете</li>
+            <li>Классы с 5-го по 11-й</li>
+          </ul>
+        </div>
+
+        <!-- Phone mockup with a live bell timer -->
+        <div class="phone" aria-label="Пример экрана приложения">
+          <div class="phone-notch"></div>
+          <div class="screen">
+            <div class="screen-top">
+              <span class="screen-class">7А · 1 смена</span>
+              <span class="screen-clock" id="demo-clock">--:--</span>
+            </div>
+            <div class="timer-card">
+              <p class="timer-label" id="demo-label">До звонка</p>
+              <p class="timer-value" id="demo-timer">--:--</p>
+              <div class="timer-bar"><div class="timer-fill" id="demo-fill"></div></div>
+              <p class="timer-sub" id="demo-sub">Загружаю расписание…</p>
+            </div>
+            <ul class="lessons" id="demo-lessons"></ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features -->
+    <section class="section" id="features">
+      <div class="wrap">
+        <h2>Что умеет приложение</h2>
+        <p class="section-lead">Всё, о чём обычно спрашивают в чате класса, теперь под рукой.</p>
+        <div class="features">
+          <article class="feature">
+            <div class="feature-icon">📅</div>
+            <h3>Расписание уроков</h3>
+            <p>Уроки и кабинеты для всех классов с 5-го по 11-й. Режимы «Сегодня» и «Завтра» — только то, что нужно.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">🔔</div>
+            <h3>Таймер звонков</h3>
+            <p>Сколько осталось до конца урока или перемены. Учитывает первую и вторую смену и сокращённые дни.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">📝</div>
+            <h3>Домашние задания</h3>
+            <p>Записывай ДЗ по каждому предмету и отмечай выполненное. Можно сфотографировать доску.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">❄️</div>
+            <h3>Погода и актировки</h3>
+            <p>Погода в Аргаяше и подсказка, отменят ли уроки в мороз — по нормам Челябинской области.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">🎒</div>
+            <h3>Умный рюкзак</h3>
+            <p>Смотрит уроки на завтра и подсказывает, какие учебники, тетради и форму положить.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">📊</div>
+            <h3>Средний балл</h3>
+            <p>Калькулятор оценок покажет, сколько пятёрок нужно до нужной оценки в четверти.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">💬</div>
+            <h3>Чат класса</h3>
+            <p>Закрытый чат для своего класса. Вход по коду, который выдаёт классный руководитель.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">🎮</div>
+            <h3>Игры на перемену</h3>
+            <p>Мини-игры вроде Змейки, Сапёра и 2048. Работают даже без интернета.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Audience -->
+    <section class="section section-alt">
+      <div class="wrap audience">
+        <div class="aud">
+          <h3>Ученикам</h3>
+          <p>Всегда знаешь, какой сейчас урок и в каком кабинете, и не носишь лишние учебники.</p>
+        </div>
+        <div class="aud">
+          <h3>Родителям</h3>
+          <p>Видно, когда заканчивается смена и есть ли актировка утром перед школой.</p>
+        </div>
+        <div class="aud">
+          <h3>Учителям</h3>
+          <p>Меньше опозданий и вопросов «а какой следующий урок?».</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Download -->
+    <section class="section" id="download">
+      <div class="wrap">
+        <h2>Как установить</h2>
+        <p class="section-lead">Приложение ставится прямо из браузера — магазин приложений не нужен. Займёт меньше минуты.</p>
+
+        <div class="install">
+          <article class="platform">
+            <div class="platform-head">
+              <span class="platform-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.5 11.5 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
+              </span>
+              <h3>Android</h3>
+            </div>
+            <ol>
+              <li>Открой приложение в <b>Chrome</b>.</li>
+              <li>Нажми <b>⋮</b> в правом верхнем углу.</li>
+              <li>Выбери <b>«Установить приложение»</b> или <b>«Добавить на главный экран»</b>.</li>
+            </ol>
+            <a class="btn btn-block" data-link="apk" data-soon="APK — скоро" href="#">Скачать APK</a>
+          </article>
+
+          <article class="platform">
+            <div class="platform-head">
+              <span class="platform-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M16.37 12.6c-.02-2.3 1.88-3.4 1.96-3.46-1.07-1.56-2.73-1.77-3.32-1.8-1.41-.14-2.76.83-3.47.83-.72 0-1.82-.81-3-.79-1.54.02-2.96.9-3.75 2.27-1.6 2.78-.41 6.9 1.15 9.15.76 1.1 1.67 2.34 2.86 2.3 1.15-.05 1.58-.74 2.97-.74 1.38 0 1.77.74 2.98.72 1.24-.02 2.02-1.12 2.77-2.23.87-1.28 1.23-2.52 1.25-2.58-.03-.01-2.39-.92-2.4-3.67zM14.1 5.84c.63-.77 1.06-1.83.94-2.9-.91.04-2.02.61-2.67 1.37-.58.68-1.1 1.77-.96 2.81 1.02.08 2.06-.52 2.69-1.28z"/></svg>
+              </span>
+              <h3>iPhone и iPad</h3>
+            </div>
+            <ol>
+              <li>Открой приложение в <b>Safari</b>.</li>
+              <li>Нажми <b>«Поделиться»</b> — квадрат со стрелкой вверх.</li>
+              <li>Выбери <b>«На экран „Домой“»</b> и нажми <b>«Добавить»</b>.</li>
+            </ol>
+            <a class="btn btn-block btn-ghost" data-link="app" data-soon="Ссылка скоро" href="#">Открыть в Safari</a>
+          </article>
+
+          <article class="platform">
+            <div class="platform-head">
+              <span class="platform-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M3 4h18a1 1 0 0 1 1 1v11a1 1 0 0 1-1 1h-7v2h3v2H7v-2h3v-2H3a1 1 0 0 1-1-1V5a1 1 0 0 1 1-1zm1 2v9h16V6H4z"/></svg>
+              </span>
+              <h3>Компьютер</h3>
+            </div>
+            <ol>
+              <li>Открой приложение в <b>Chrome</b>, <b>Edge</b> или <b>Яндекс Браузере</b>.</li>
+              <li>Нажми значок установки в конце адресной строки.</li>
+              <li>Подтверди <b>«Установить»</b> — появится ярлык на рабочем столе.</li>
+            </ol>
+            <a class="btn btn-block btn-ghost" data-link="app" data-soon="Ссылка скоро" href="#">Открыть приложение</a>
+          </article>
+        </div>
+
+        <div class="steps">
+          <div class="step"><span>1</span>Установи приложение</div>
+          <div class="step"><span>2</span>Выбери свой класс</div>
+          <div class="step"><span>3</span>Введи код от классного руководителя</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section section-alt" id="faq">
+      <div class="wrap faq">
+        <h2>Частые вопросы</h2>
+        <details>
+          <summary>Это платно?</summary>
+          <p>Нет, приложение полностью бесплатное и без рекламы.</p>
+        </details>
+        <details>
+          <summary>Где взять код класса?</summary>
+          <p>У своего классного руководителя. Код нужен, чтобы в чат класса попадали только свои.</p>
+        </details>
+        <details>
+          <summary>Почему его нет в Google Play и App Store?</summary>
+          <p>Приложение работает как веб-приложение: оно ставится из браузера, весит меньше обычного и обновляется само.</p>
+        </details>
+        <details>
+          <summary>Будет работать без интернета?</summary>
+          <p>Расписание, таймер звонков и игры работают и при слабом интернете. Для чата и погоды нужно подключение.</p>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div class="brand">
+        <img src="/icon.svg" alt="" width="28" height="28" />
+        <span>АСОШ Таймер</span>
+      </div>
+      <p>Помощник для учеников, родителей и учителей АСОШ №2, с. Аргаяш.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Ссылки на приложение. Пока поле пустое, кнопка показывает «скоро».
+    // app — адрес веб-версии приложения, apk — прямая ссылка на .apk файл.
+    window.LINKS = {
+      app: '',
+      apk: '',
+    };
+  </script>
+  <script src="/main.js"></script>
+</body>
+</html>
