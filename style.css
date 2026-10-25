@@ -203,6 +203,7 @@ h1 { font-size: clamp(36px, 5.6vw, 60px); font-weight: 800; letter-spacing: -0.0
   background: linear-gradient(90deg, var(--cyan), var(--amber));
   transition: width .6s ease;
 }
+.timer-value.timer-word { font-size: 30px; }
 .timer-sub { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
 .lessons { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 6px; }
 .lessons li {
@@ -219,6 +220,29 @@ h1 { font-size: clamp(36px, 5.6vw, 60px); font-weight: 800; letter-spacing: -0.0
 .lessons li.now { background: var(--surface-2); outline: 1px solid rgba(251, 191, 36, 0.45); }
 .lessons li.now b { color: var(--amber); }
 .lessons li.done { opacity: .45; }
+
+/* Подпись под демо-телефоном */
+.demo { margin: 0; justify-self: center; display: grid; justify-items: center; gap: 14px; }
+.demo figcaption { max-width: 300px; text-align: center; color: var(--muted); font-size: 13px; }
+
+/* Скриншоты приложения */
+.shots {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  padding-bottom: 12px;
+}
+.shots figure { margin: 0; flex: 0 0 220px; scroll-snap-align: start; text-align: center; }
+.shots img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 26px;
+  border: 1px solid var(--line);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+}
+.shots figcaption { margin-top: 10px; color: var(--muted); font-size: 14px; font-weight: 600; }
 
 /* Sections */
 .section { padding: 88px 0; }
@@ -327,6 +351,18 @@ details p { margin: 12px 0 0; color: var(--muted); }
 .footer { padding: 36px 0 44px; }
 .footer-inner { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; }
 .footer p { margin: 0; color: var(--muted); font-size: 14px; }
+.footer-link { color: var(--muted); font-size: 14px; }
+.footer-link:hover { color: var(--text); }
+
+/* Политика конфиденциальности */
+.policy { max-width: 760px; }
+.policy h1 { font-size: clamp(22px, 5.8vw, 40px); margin-bottom: 8px; hyphens: auto; }
+.policy h2 { font-size: 21px; margin: 36px 0 10px; }
+.policy p, .policy li { color: var(--muted); }
+.policy ul { padding-left: 22px; display: grid; gap: 6px; }
+.policy b { color: var(--text); }
+.policy a { overflow-wrap: anywhere; }
+.policy .updated { font-size: 14px; margin-top: 0; }
 
 /* Responsive */
 @media (max-width: 980px) {
@@ -346,6 +382,7 @@ details p { margin: 12px 0 0; color: var(--muted); }
   .lead { font-size: 17px; }
   .hero-cta .btn { flex: 1 1 100%; }
   .phone { width: 280px; }
+  .timer-value.timer-word { font-size: 26px; }
 }
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }

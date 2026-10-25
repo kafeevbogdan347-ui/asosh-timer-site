@@ -69,6 +69,8 @@ function renderLessons(activeIndex, sec) {
 function tick() {
   const { weekday, sec } = argayashNow();
   els.clock.textContent = fmt(Math.floor(sec / 60));
+  // Слово «Выходной» шире цифр — для него шрифт поменьше, чтобы не вылезал из телефона
+  els.timer.classList.toggle('timer-word', weekday === 'вс');
 
   if (weekday === 'вс') {
     els.label.textContent = 'Сегодня';
