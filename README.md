@@ -10,12 +10,16 @@
 
 ```js
 window.LINKS = {
-  app: '',   // адрес веб-версии приложения
-  apk: '',   // прямая ссылка на .apk файл
+  app: 'https://kafeevbogdan347-ui.github.io/asosh-timer/',
+  apk: 'https://github.com/kafeevbogdan347-ui/asosh-timer/releases/download/apk-latest/asosh-timer.apk',
 };
 ```
 
-Пока ссылка пустая, кнопка показывает «скоро».
+APK по этой ссылке всегда последний: его обновляет сборка в репозитории приложения при каждом коммите в `main`. Если ссылку очистить, кнопка покажет «скоро».
+
+## Скриншоты
+
+`img/` — экраны в размере iPhone 15 (393×852, с отступом под строку состояния). Рамку iPhone, Dynamic Island и строку состояния рисуют `style.css` и `main.js`.
 
 ## Локальный просмотр
 
