@@ -4,14 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>АСОШ Таймер — расписание и звонки АСОШ №2, с. Аргаяш</title>
-  <meta name="description" content="АСОШ Таймер — бесплатное приложение для учеников МОУ АСОШ №2 (с. Аргаяш): расписание уроков и звонков, таймер до конца урока, замены, домашние задания и чат класса. Android, iPhone и компьютер, работает без интернета." />
+  <meta name="description" content="АСОШ Таймер — бесплатное приложение для учеников и учителей МОУ АСОШ №2 (с. Аргаяш): расписание уроков и звонков, таймер до конца урока, замены, домашние задания, объявления учителей и чат класса. Android, iPhone и компьютер, работает без интернета." />
   <meta name="keywords" content="АСОШ Таймер, АСОШ №2, Аргаяшская СОШ 2, Аргаяш школа, расписание звонков, расписание уроков, школьный дневник" />
   <link rel="canonical" href="https://kafeevbogdan347-ui.github.io/asosh-timer-site/" />
   <!-- Подтверждение прав в Яндекс Вебмастере и Google Search Console: сюда вставить мета-теги из их кабинетов -->
   <meta property="og:title" content="АСОШ Таймер — расписание и звонки АСОШ №2" />
-  <meta property="og:description" content="Расписание, звонки, замены, домашка и чат класса — всё в одном бесплатном приложении для учеников АСОШ №2, с. Аргаяш." />
+  <meta property="og:description" content="Расписание, звонки, замены, домашка, объявления учителей и чат класса — всё в одном бесплатном приложении для АСОШ №2, с. Аргаяш." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://kafeevbogdan347-ui.github.io/asosh-timer-site/" />
+  <meta property="og:image" content="https://kafeevbogdan347-ui.github.io/asosh-timer-site/img/screen-main.jpg" />
   <meta property="og:site_name" content="АСОШ Таймер" />
   <meta property="og:locale" content="ru_RU" />
   <script type="application/ld+json">
@@ -20,7 +21,7 @@
     "@type": "SoftwareApplication",
     "name": "АСОШ Таймер",
     "alternateName": ["АСОШ №2 Таймер", "Умный дневник АСОШ №2"],
-    "description": "Расписание уроков и звонков, таймер до конца урока, замены, домашние задания и чат класса для учеников МОУ АСОШ №2, с. Аргаяш.",
+    "description": "Расписание уроков и звонков, таймер до конца урока, замены, домашние задания, объявления учителей и чат класса для МОУ АСОШ №2, с. Аргаяш.",
     "url": "https://kafeevbogdan347-ui.github.io/asosh-timer-site/",
     "applicationCategory": "EducationalApplication",
     "operatingSystem": "Android, iOS, Windows, macOS",
@@ -30,14 +31,17 @@
     "installUrl": "https://kafeevbogdan347-ui.github.io/asosh-timer/"
   }
   </script>
+  <script>document.documentElement.classList.add('js');</script>
   <meta name="theme-color" content="#060d1f" />
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
+  <div class="bg-glow" aria-hidden="true"></div>
+
   <header class="nav">
     <div class="wrap nav-inner">
       <a class="brand" href="#top">
@@ -45,8 +49,9 @@
         <span>АСОШ Таймер</span>
       </a>
       <nav class="nav-links" aria-label="Разделы">
+        <a href="#screens">Экраны</a>
         <a href="#features">Возможности</a>
-        <a href="#download">Скачать</a>
+        <a href="#teachers">Учителям</a>
         <a href="#faq">Вопросы</a>
       </nav>
       <a class="btn btn-small" href="#download">Установить</a>
@@ -58,14 +63,18 @@
     <section class="hero">
       <div class="wrap hero-inner">
         <div class="hero-text">
-          <p class="eyebrow">Для учеников АСОШ №2 · с. Аргаяш</p>
+          <p class="eyebrow"><span class="dot"></span>Для АСОШ №2 · с. Аргаяш</p>
           <h1>Вся школа <span class="accent">в&nbsp;твоём телефоне</span></h1>
           <p class="lead">
-            Расписание уроков и звонков, таймер до конца урока, домашние задания
-            и чат класса — в одном приложении. Бесплатно и без рекламы.
+            Расписание и звонки, таймер до конца урока, замены, домашка,
+            объявления учителей и чат класса — в одном приложении.
+            Бесплатно и без рекламы.
           </p>
           <div class="hero-cta">
-            <a class="btn" href="#download">Скачать приложение</a>
+            <a class="btn" href="#download">
+              <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path fill="currentColor" d="M12 3a1 1 0 0 1 1 1v9.59l3.3-3.3a1 1 0 1 1 1.4 1.42l-5 5a1 1 0 0 1-1.4 0l-5-5a1 1 0 1 1 1.4-1.42l3.3 3.3V4a1 1 0 0 1 1-1zM5 19h14a1 1 0 1 1 0 2H5a1 1 0 1 1 0-2z"/></svg>
+              Скачать приложение
+            </a>
             <a class="btn btn-ghost" data-link="app" href="#download">Открыть в браузере</a>
           </div>
           <ul class="hero-points">
@@ -75,50 +84,67 @@
           </ul>
         </div>
 
-        <!-- Phone mockup with a live bell timer -->
+        <!-- Телефон с живым таймером звонков -->
         <figure class="demo">
-        <div class="phone" aria-label="Пример экрана приложения">
-          <div class="phone-notch"></div>
-          <div class="screen">
-            <div class="screen-top">
-              <span class="screen-class">Пример · 1 смена</span>
-              <span class="screen-clock" id="demo-clock">--:--</span>
+          <div class="phone" aria-label="Пример экрана приложения">
+            <div class="phone-notch"></div>
+            <div class="screen">
+              <div class="screen-top">
+                <span class="screen-class">Пример · 1 смена</span>
+                <span class="screen-clock" id="demo-clock">--:--</span>
+              </div>
+              <div class="timer-card">
+                <p class="timer-label" id="demo-label">До звонка</p>
+                <p class="timer-value" id="demo-timer">--:--</p>
+                <div class="timer-bar"><div class="timer-fill" id="demo-fill"></div></div>
+                <p class="timer-sub" id="demo-sub">Загружаю расписание…</p>
+              </div>
+              <ul class="lessons" id="demo-lessons"></ul>
             </div>
-            <div class="timer-card">
-              <p class="timer-label" id="demo-label">До звонка</p>
-              <p class="timer-value" id="demo-timer">--:--</p>
-              <div class="timer-bar"><div class="timer-fill" id="demo-fill"></div></div>
-              <p class="timer-sub" id="demo-sub">Загружаю расписание…</p>
-            </div>
-            <ul class="lessons" id="demo-lessons"></ul>
           </div>
-        </div>
-          <figcaption>Пример: таймер идёт по настоящим звонкам 1-й смены, уроки — для примера.</figcaption>
+          <figcaption>Таймер идёт по настоящим звонкам 1-й смены, учитывает выходные и каникулы. Уроки — для примера.</figcaption>
         </figure>
+      </div>
+
+      <div class="wrap">
+        <ul class="stats">
+          <li><b>24</b><span>темы оформления</span></li>
+          <li><b>8</b><span>мини-игр на перемену</span></li>
+          <li><b>5–11</b><span>классы, обе смены</span></li>
+          <li><b>0 ₽</b><span>без рекламы и подписок</span></li>
+        </ul>
       </div>
     </section>
 
     <!-- Screenshots -->
-    <section class="section section-alt" id="screens">
+    <section class="section" id="screens">
       <div class="wrap">
-        <h2>Как это выглядит</h2>
-        <p class="section-lead">Настоящие экраны приложения — листай вбок.</p>
-        <div class="shots">
-          <figure><img src="img/screen-main.jpg" alt="Главный экран: сколько осталось до конца урока" width="390" height="844" loading="lazy" /><figcaption>Главная</figcaption></figure>
-          <figure><img src="img/screen-lessons.jpg" alt="Уроки на сегодня с временем и кабинетами" width="390" height="844" loading="lazy" /><figcaption>Уроки на сегодня</figcaption></figure>
-          <figure><img src="img/screen-homework.jpg" alt="Список домашних заданий" width="390" height="844" loading="lazy" /><figcaption>Домашка</figcaption></figure>
-          <figure><img src="img/screen-achievements.jpg" alt="Достижения с подсказками" width="390" height="844" loading="lazy" /><figcaption>Достижения</figcaption></figure>
-          <figure><img src="img/screen-theme-notebook.jpg" alt="Тема «Тетрадь в клетку»" width="390" height="844" loading="lazy" /><figcaption>Тема «Тетрадь в клетку»</figcaption></figure>
+        <div class="section-head reveal">
+          <p class="kicker">Как это выглядит</p>
+          <h2>Настоящие экраны приложения</h2>
+          <p class="section-lead">Так приложение выглядит сейчас. На телефоне листай вбок.</p>
+        </div>
+        <div class="shots reveal">
+          <figure><div class="iphone"><img src="img/screen-main.jpg" alt="Главный экран: сколько осталось до конца урока и объявление классного руководителя" width="393" height="852" loading="lazy" /></div><figcaption>Главная</figcaption></figure>
+          <figure><div class="iphone"><img src="img/screen-lessons.jpg" alt="Уроки на сегодня: текущий урок подсвечен" width="393" height="852" loading="lazy" /></div><figcaption>Уроки на сегодня</figcaption></figure>
+          <figure><div class="iphone"><img src="img/screen-homework.jpg" alt="Домашние задания: срочное закреплено сверху" width="393" height="852" loading="lazy" /></div><figcaption>Домашка</figcaption></figure>
+          <figure><div class="iphone"><img src="img/screen-calendar.jpg" alt="Календарь: контрольные от учителей и каникулы" width="393" height="852" loading="lazy" /></div><figcaption>Календарь</figcaption></figure>
+          <figure><div class="iphone"><img src="img/screen-themes.jpg" alt="Выбор темы оформления с живыми превью" width="393" height="852" loading="lazy" /></div><figcaption>Темы</figcaption></figure>
         </div>
       </div>
     </section>
 
     <!-- Features -->
-    <section class="section" id="features">
+    <section class="section section-alt" id="features">
       <div class="wrap">
-        <h2>Что умеет приложение</h2>
-        <p class="section-lead">Всё, о чём обычно спрашивают в чате класса, теперь под рукой.</p>
-        <div class="features">
+        <div class="section-head reveal">
+          <p class="kicker">Возможности</p>
+          <h2>Всё, о чём спрашивают в чате класса</h2>
+          <p class="section-lead">Теперь под рукой — даже без интернета.</p>
+        </div>
+
+        <h3 class="group-title reveal">📚 Учёба</h3>
+        <div class="features reveal">
           <article class="feature">
             <div class="feature-icon">📅</div>
             <h3>Расписание уроков</h3>
@@ -127,7 +153,7 @@
           <article class="feature">
             <div class="feature-icon">🔔</div>
             <h3>Таймер звонков</h3>
-            <p>Сколько осталось до конца урока или перемены. Учитывает первую и вторую смену и сокращённые дни.</p>
+            <p>Сколько осталось до конца урока или перемены. Учитывает обе смены, выходные и каникулы.</p>
           </article>
           <article class="feature">
             <div class="feature-icon">📝</div>
@@ -135,25 +161,24 @@
             <p>Записывай ДЗ по каждому предмету и отмечай выполненное. Можно сфотографировать доску.</p>
           </article>
           <article class="feature">
-            <div class="feature-icon">🍅</div>
-            <h3>Помодоро и фокус</h3>
-            <p>Таймер помодоро и фоновые звуки, чтобы делать уроки без отвлечений.</p>
+            <div class="feature-icon">🗓️</div>
+            <h3>Календарь года</h3>
+            <p>Каникулы, праздники, контрольные от учителей и свои события. Сколько дней осталось до лета.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">📊</div>
+            <h3>Калькулятор оценок</h3>
+            <p>Покажет средний балл и сколько пятёрок нужно до нужной оценки в четверти.</p>
           </article>
           <article class="feature">
             <div class="feature-icon">🎒</div>
             <h3>Умный рюкзак</h3>
-            <p>Смотрит уроки на завтра и подсказывает, какие учебники, тетради и форму положить.</p>
+            <p>Смотрит уроки на завтра и подсказывает, какие учебники и тетради положить.</p>
           </article>
-          <article class="feature">
-            <div class="feature-icon">📊</div>
-            <h3>Средний балл</h3>
-            <p>Калькулятор оценок покажет, сколько пятёрок нужно до нужной оценки в четверти.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">💬</div>
-            <h3>Чат класса</h3>
-            <p>Закрытый чат для своего класса. Вход по коду, который выдаёт классный руководитель.</p>
-          </article>
+        </div>
+
+        <h3 class="group-title reveal">👥 Класс</h3>
+        <div class="features reveal">
           <article class="feature">
             <div class="feature-icon">🔄</div>
             <h3>Замены для всего класса</h3>
@@ -165,24 +190,23 @@
             <p>Записал домашку — поделись с классом в одно касание. Кто болел, ничего не пропустит.</p>
           </article>
           <article class="feature">
-            <div class="feature-icon">🗓️</div>
-            <h3>Календарь года</h3>
-            <p>Каникулы, праздники, свои контрольные и сколько дней осталось до лета.</p>
+            <div class="feature-icon">💬</div>
+            <h3>Чат класса</h3>
+            <p>Закрытый чат для своего класса. Вход по коду, который выдаёт классный руководитель.</p>
           </article>
+          <article class="feature">
+            <div class="feature-icon">📢</div>
+            <h3>Объявления учителей</h3>
+            <p>Собрания, контрольные и школьные события появляются прямо на главном экране.</p>
+          </article>
+        </div>
+
+        <h3 class="group-title reveal">✨ Удобство</h3>
+        <div class="features reveal">
           <article class="feature">
             <div class="feature-icon">📲</div>
             <h3>Напоминания о звонках</h3>
             <p>На Android приложение напомнит об уроке за 5 минут — даже когда оно закрыто.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">📺</div>
-            <h3>Экран для ТВ</h3>
-            <p>Большие часы и время до звонка для проектора или телевизора в классе.</p>
-          </article>
-          <article class="feature">
-            <div class="feature-icon">📱</div>
-            <h3>Перенос на новый телефон</h3>
-            <p>Покажи QR-код со старого телефона — ДЗ, оценки и настройки переедут за секунды.</p>
           </article>
           <article class="feature">
             <div class="feature-icon">📴</div>
@@ -190,45 +214,94 @@
             <p>Расписание, звонки, ДЗ и игры доступны даже в режиме полёта и в подвале школы.</p>
           </article>
           <article class="feature">
-            <div class="feature-icon">🎨</div>
-            <h3>Темы оформления</h3>
-            <p>Тетрадь, пиксели, космос, неон и другие — или тема сама подстраивается под телефон.</p>
+            <div class="feature-icon">📱</div>
+            <h3>Перенос на новый телефон</h3>
+            <p>Покажи QR-код со старого телефона — ДЗ, оценки и настройки переедут за секунды.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">📺</div>
+            <h3>Экран для ТВ</h3>
+            <p>Большие часы и время до звонка для проектора или телевизора в классе.</p>
+          </article>
+          <article class="feature">
+            <div class="feature-icon">🍅</div>
+            <h3>Помодоро и фокус</h3>
+            <p>Таймер помодоро и фоновые звуки, чтобы делать уроки без отвлечений.</p>
           </article>
           <article class="feature">
             <div class="feature-icon">🎮</div>
             <h3>Игры на перемену</h3>
-            <p>Восемь мини-игр: Змейка, Флаппи, Дуэль, Память, Реакция и другие. Работают без интернета, а во время урока сами закрываются.</p>
+            <p>Змейка, Флаппи, Дуэль, Память, Реакция и другие. Во время урока сами закрываются.</p>
           </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Themes -->
+    <section class="section themes-section">
+      <div class="wrap themes-inner">
+        <div class="themes-text reveal">
+          <p class="kicker">Оформление</p>
+          <h2>24 темы — не только цвет</h2>
+          <p class="section-lead">Каждая тема меняет фон, форму карточек, шрифт и анимации. Тетрадь в клетку, космос со звёздами, цветущая сакура, пиксели, неон и другие. Или тема сама подстроится под телефон: днём светлая, ночью тёмная.</p>
+        </div>
+        <div class="theme-phones reveal" aria-label="Примеры тем">
+          <figure class="tp tp-left"><div class="iphone is-light"><img src="img/theme-notebook.jpg" alt="Тема «Тетрадь в клетку»" width="393" height="852" loading="lazy" /></div><figcaption>Тетрадь в клетку</figcaption></figure>
+          <figure class="tp tp-mid"><div class="iphone"><img src="img/theme-space.jpg" alt="Тема «Космос»" width="393" height="852" loading="lazy" /></div><figcaption>Космос</figcaption></figure>
+          <figure class="tp tp-right"><div class="iphone is-light"><img src="img/theme-blossom.jpg" alt="Тема «Цветущая вишня»" width="393" height="852" loading="lazy" /></div><figcaption>Цветущая вишня</figcaption></figure>
+        </div>
+      </div>
+    </section>
+
+    <!-- Teachers -->
+    <section class="section section-alt" id="teachers">
+      <div class="wrap teachers">
+        <div class="reveal">
+          <p class="kicker kicker-amber">Новое</p>
+          <h2>Кабинет учителя</h2>
+          <p class="section-lead">Учитель входит по личному одноразовому коду от администратора приложения — и может писать сразу всему классу или всей школе.</p>
+        </div>
+        <div class="teacher-grid reveal">
+          <div class="tcard"><span>📢</span><h3>Объявления</h3><p>Появляются на главном экране у учеников нужного класса или всей школы.</p></div>
+          <div class="tcard"><span>🗓️</span><h3>События</h3><p>Контрольные и мероприятия сразу попадают в календарь учеников.</p></div>
+          <div class="tcard"><span>📘</span><h3>ДЗ классу</h3><p>Домашка от учителя выделена и стоит в списке первой.</p></div>
+          <div class="tcard"><span>🔐</span><h3>Только по коду</h3><p>Код одноразовый: им нельзя войти на втором телефоне.</p></div>
         </div>
       </div>
     </section>
 
     <!-- Audience -->
-    <section class="section section-alt">
-      <div class="wrap audience">
+    <section class="section">
+      <div class="wrap audience reveal">
         <div class="aud">
+          <span class="aud-icon">🎒</span>
           <h3>Ученикам</h3>
           <p>Всегда знаешь, какой сейчас урок и в каком кабинете, и не носишь лишние учебники.</p>
         </div>
         <div class="aud">
+          <span class="aud-icon">👨‍👩‍👧</span>
           <h3>Родителям</h3>
-          <p>Видно расписание ребёнка и когда заканчивается его смена.</p>
+          <p>Видно расписание ребёнка, когда заканчивается его смена и когда собрание.</p>
         </div>
         <div class="aud">
+          <span class="aud-icon">👩‍🏫</span>
           <h3>Учителям</h3>
-          <p>Меньше опозданий и вопросов «а какой следующий урок?».</p>
+          <p>Объявления и ДЗ доходят до всего класса сразу, а вопросов «какой следующий урок?» меньше.</p>
         </div>
       </div>
     </section>
 
     <!-- Download -->
-    <section class="section" id="download">
+    <section class="section section-alt" id="download">
       <div class="wrap">
-        <h2>Как установить</h2>
-        <p class="section-lead">Приложение ставится прямо из браузера — магазин приложений не нужен. Займёт меньше минуты.</p>
+        <div class="section-head reveal">
+          <p class="kicker">Установка</p>
+          <h2>Как установить</h2>
+          <p class="section-lead">Приложение ставится прямо из браузера — магазин приложений не нужен. Займёт меньше минуты.</p>
+        </div>
 
-        <div class="install">
-          <article class="platform">
+        <div class="install reveal">
+          <article class="platform platform-main">
             <div class="platform-head">
               <span class="platform-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" width="24" height="24"><path fill="currentColor" d="M17.6 9.48l1.84-3.18a.38.38 0 0 0-.66-.38l-1.86 3.22a11.5 11.5 0 0 0-9.84 0L5.22 5.92a.38.38 0 0 0-.66.38L6.4 9.48A10.8 10.8 0 0 0 1 18h22a10.8 10.8 0 0 0-5.4-8.52zM7 15.25a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5zm10 0a1.25 1.25 0 1 1 0-2.5 1.25 1.25 0 0 1 0 2.5z"/></svg>
@@ -240,7 +313,7 @@
               <li>Открой скачанный файл и разреши установку из этого источника.</li>
               <li>Нажми <b>«Установить»</b>. Обновления ставятся поверх, данные сохраняются.</li>
             </ol>
-            <a class="btn btn-block" data-link="apk" data-soon="APK — скоро" href="#">Скачать APK</a>
+            <a class="btn btn-block" data-link="apk" data-soon="APK — скоро" href="#">Скачать APK · 3,6 МБ</a>
           </article>
 
           <article class="platform">
@@ -274,7 +347,17 @@
           </article>
         </div>
 
-        <div class="steps">
+        <div class="qr-row reveal">
+          <div class="qr-card">
+            <img src="img/qr-download.svg" alt="QR-код со ссылкой на этот сайт" width="148" height="148" />
+          </div>
+          <div class="qr-text">
+            <h3>Открыто на компьютере?</h3>
+            <p>Наведи камеру телефона на QR-код — откроется эта страница, и приложение можно поставить сразу на телефон.</p>
+          </div>
+        </div>
+
+        <div class="steps reveal">
           <div class="step"><span>1</span>Установи приложение</div>
           <div class="step"><span>2</span>Введи код класса от классного руководителя</div>
           <div class="step"><span>3</span>Нет кода? Нажми «Войти как гость»</div>
@@ -283,9 +366,12 @@
     </section>
 
     <!-- FAQ -->
-    <section class="section section-alt" id="faq">
+    <section class="section" id="faq">
       <div class="wrap faq">
-        <h2>Частые вопросы</h2>
+        <div class="section-head reveal">
+          <p class="kicker">Вопросы</p>
+          <h2>Частые вопросы</h2>
+        </div>
         <details>
           <summary>Это платно?</summary>
           <p>Нет, приложение полностью бесплатное и без рекламы.</p>
@@ -299,12 +385,16 @@
           <p>Да, нажми «Войти как гость»: доступно всё, кроме чата класса и отправки замен и ДЗ всему классу.</p>
         </details>
         <details>
+          <summary>Я учитель. Как войти?</summary>
+          <p>На экране выбора класса нажмите «Я учитель» и введите код учителя — его выдаёт администратор приложения. Код одноразовый: после входа им нельзя войти на другом телефоне.</p>
+        </details>
+        <details>
           <summary>Почему его нет в Google Play и App Store?</summary>
           <p>На Android приложение ставится файлом APK с этого сайта, на iPhone и компьютере — прямо из браузера. Оно весит меньше 4 МБ.</p>
         </details>
         <details>
           <summary>Будет работать без интернета?</summary>
-          <p>Да. Расписание, таймер звонков, ДЗ, календарь и игры работают без сети. Чат и замены класса показывают последнее сохранённое и обновятся, когда появится интернет.</p>
+          <p>Да. Расписание, таймер звонков, ДЗ, календарь и игры работают без сети. Чат, замены и объявления показывают последнее сохранённое и обновятся, когда появится интернет.</p>
         </details>
         <details>
           <summary>Какие данные собирает приложение?</summary>
@@ -316,16 +406,33 @@
         </details>
       </div>
     </section>
+
+    <!-- CTA -->
+    <section class="cta-band">
+      <div class="wrap cta-inner reveal">
+        <h2>Поставь — и больше не спрашивай, какой следующий урок</h2>
+        <div class="hero-cta">
+          <a class="btn" data-link="apk" data-soon="APK — скоро" href="#download">Скачать для Android</a>
+          <a class="btn btn-ghost" data-link="app" href="#download">Открыть в браузере</a>
+        </div>
+      </div>
+    </section>
   </main>
 
   <footer class="footer">
     <div class="wrap footer-inner">
-      <div class="brand">
-        <img src="icon.svg" alt="" width="28" height="28" />
-        <span>АСОШ Таймер</span>
+      <div class="footer-brand">
+        <div class="brand">
+          <img src="icon.svg" alt="" width="28" height="28" />
+          <span>АСОШ Таймер</span>
+        </div>
+        <p>Помощник для учеников, родителей и учителей МОУ АСОШ №2, с. Аргаяш, Челябинская область. Сделано выпускниками школы.</p>
       </div>
-      <p>АСОШ Таймер — помощник для учеников, родителей и учителей МОУ АСОШ №2, с. Аргаяш, Челябинская область.</p>
-      <a class="footer-link" href="privacy.html">Политика конфиденциальности</a>
+      <nav class="footer-links" aria-label="Ссылки">
+        <a data-link="app" href="#download">Веб-версия</a>
+        <a data-link="apk" href="#download">Скачать APK</a>
+        <a href="privacy.html">Политика конфиденциальности</a>
+      </nav>
     </div>
   </footer>
 

@@ -1,0 +1,493 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>АСОШ Таймер — презентация</title>
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Презентация: слайды 1920×1080 масштабируются под любой экран */
+    html, body { height: 100%; overflow: hidden; scroll-behavior: auto; }
+    body { background: #02050d; }
+    .deck { position: fixed; inset: 0; }
+    .stage { position: absolute; left: 50%; top: 50%; width: 1920px; height: 1080px; transform-origin: center center; }
+    .slide {
+      position: absolute;
+      inset: 0;
+      padding: 90px 140px 120px;
+      overflow: hidden;
+      background:
+        radial-gradient(900px 600px at 92% -5%, rgba(34, 211, 238, 0.16), transparent 70%),
+        radial-gradient(800px 600px at -5% 105%, rgba(139, 92, 246, 0.14), transparent 70%),
+        var(--bg);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .45s ease, visibility .45s;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      font-size: 30px;
+    }
+    .slide.active { opacity: 1; visibility: visible; }
+    .slide .anim { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .slide.active .anim { opacity: 1; transform: none; }
+    .slide.active .anim:nth-child(2) { transition-delay: .08s; }
+    .slide.active .anim:nth-child(3) { transition-delay: .16s; }
+    .slide.active .anim:nth-child(4) { transition-delay: .24s; }
+
+    .s-foot {
+      position: absolute;
+      left: 140px;
+      right: 140px;
+      bottom: 54px;
+      display: flex;
+      justify-content: space-between;
+      color: var(--muted);
+      font-size: 22px;
+      font-weight: 700;
+    }
+    .s-foot span:first-child { display: flex; align-items: center; gap: 10px; }
+    .s-foot img { width: 30px; height: 30px; }
+
+    .kick { margin: 0 0 18px; color: var(--amber); font-size: 24px; font-weight: 800; letter-spacing: .16em; text-transform: uppercase; }
+    .kick.cyan { color: var(--cyan); }
+    .slide h1 { font-size: 132px; font-weight: 800; letter-spacing: -0.03em; }
+    .slide h2 { font-size: 72px; font-weight: 700; letter-spacing: -0.02em; line-height: 1.1; }
+    .sub { margin: 28px 0 0; color: var(--muted); font-size: 38px; line-height: 1.35; max-width: 22em; }
+
+    .split { display: grid; grid-template-columns: 1fr 470px; gap: 90px; align-items: center; }
+    .split.left { grid-template-columns: 470px 1fr; }
+    .phone-wrap { width: 350px; justify-self: center; }
+    .phone-wrap .iphone { box-shadow: inset 0 0 0 1px rgba(255,255,255,.35), 0 40px 90px rgba(0,0,0,.55), 0 0 90px rgba(34,211,238,.14); }
+
+    .list { list-style: none; margin: 46px 0 0; padding: 0; display: grid; gap: 18px; }
+    .list li {
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 22px;
+      align-items: center;
+      padding: 22px 28px;
+      border-radius: 24px;
+      background: linear-gradient(180deg, rgba(20, 38, 80, 0.75), rgba(15, 29, 61, 0.75));
+      border: 1px solid var(--line);
+    }
+    .list .ic { width: 70px; height: 70px; border-radius: 20px; display: grid; place-items: center; font-size: 36px; background: linear-gradient(135deg, rgba(34,211,238,.2), rgba(139,92,246,.2)); border: 1px solid var(--line); }
+    .list b { display: block; font-size: 32px; font-weight: 800; }
+    .list span { display: block; color: var(--muted); font-size: 25px; margin-top: 2px; }
+    .list li.new { border-color: rgba(251, 191, 36, 0.5); background: linear-gradient(180deg, rgba(251,191,36,.12), rgba(15,29,61,.75)); }
+    .tag { display: inline-block; margin-left: 12px; padding: 3px 12px; border-radius: 999px; background: var(--amber); color: #1a1203; font-size: 18px; font-weight: 800; vertical-align: middle; letter-spacing: .04em; }
+
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 26px; margin-top: 56px; }
+    .qcard { padding: 36px 38px; border-radius: 28px; background: linear-gradient(180deg, rgba(20,38,80,.75), rgba(15,29,61,.75)); border: 1px solid var(--line); }
+    .qcard .ic { font-size: 54px; line-height: 1; }
+    .qcard b { display: block; font-family: var(--font-head); font-size: 36px; font-weight: 600; margin: 20px 0 10px; }
+    .qcard span { color: var(--muted); font-size: 27px; }
+    .qcard.amber { background: linear-gradient(180deg, rgba(251,191,36,.12), rgba(251,191,36,.03)); border-color: rgba(251,191,36,.35); }
+    .qcard.amber b { color: var(--amber); }
+
+    /* Титул */
+    .title-grid { display: grid; grid-template-columns: 1fr 440px; gap: 80px; align-items: center; }
+    .badge { display: inline-flex; align-items: center; gap: 12px; padding: 10px 22px; border-radius: 999px; background: rgba(251,191,36,.1); border: 1px solid rgba(251,191,36,.35); color: var(--amber); font-size: 26px; font-weight: 800; }
+    .badge::before { content: ''; width: 12px; height: 12px; border-radius: 50%; background: var(--amber); }
+    .authors { margin-top: 56px; color: var(--muted); font-size: 28px; }
+    .authors b { color: var(--text); }
+
+    /* ТВ */
+    .tv { width: 1060px; align-self: center; }
+    .tv-screen { border: 18px solid #050507; border-radius: 22px; background: linear-gradient(160deg, #0e1a1d, #0b1016 60%, #15122a); aspect-ratio: 16 / 9; padding: 26px; display: grid; grid-template-columns: 1.4fr 1fr; gap: 18px; box-shadow: 0 0 0 3px #2b2d31, 0 50px 100px rgba(0,0,0,.6), 0 0 90px rgba(34,211,238,.12); font-family: var(--font-body); }
+    .tv-stand { width: 220px; height: 26px; margin: 0 auto; background: linear-gradient(#2b2d31, #15161a); border-radius: 0 0 14px 14px; }
+    .tv-card { border-radius: 20px; background: rgba(255,255,255,.05); border: 1px solid rgba(255,255,255,.1); padding: 20px; }
+    .tv-main { display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+    .tv-clock { font-size: 150px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+    .tv-date { color: var(--muted); font-size: 24px; font-weight: 700; margin-top: 4px; }
+    .tv-label { margin-top: 18px; font-size: 24px; font-weight: 700; color: #cfd8ea; }
+    .tv-timer { font-size: 96px; font-weight: 800; line-height: 1; color: #5eead4; font-variant-numeric: tabular-nums; }
+    .tv-bar { width: 80%; height: 10px; border-radius: 99px; background: rgba(255,255,255,.1); margin: 12px auto 0; overflow: hidden; }
+    .tv-bar i { display: block; width: 62%; height: 100%; background: linear-gradient(90deg, #2dd4bf, #3b82f6); }
+    .tv-now { margin-top: 12px; font-size: 32px; font-weight: 800; }
+    .tv-list h3 { font-family: var(--font-body); font-size: 24px; font-weight: 800; margin-bottom: 10px; }
+    .tv-list ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+    .tv-list li { display: flex; gap: 12px; align-items: center; padding: 8px 12px; border-radius: 12px; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.08); font-size: 19px; }
+    .tv-list li i { font-style: normal; width: 30px; height: 30px; border-radius: 9px; display: grid; place-items: center; border: 1px solid rgba(251,191,36,.5); color: var(--amber); font-weight: 800; font-size: 16px; flex: none; }
+    .tv-list li b { flex: 1; }
+    .tv-list li span { color: var(--muted); font-variant-numeric: tabular-nums; }
+    .tv-list li.cur { border-color: #2dd4bf; background: rgba(45,212,191,.1); }
+    .tv-list li.cur i { background: var(--amber); color: #1a1203; }
+
+    /* Темы */
+    .themes3 { display: flex; justify-content: center; align-items: center; gap: 0; }
+    .themes3 .iphone { width: 330px; }
+    .themes3 .l { transform: rotate(-7deg) translate(60px, 30px); }
+    .themes3 .m { z-index: 2; transform: translateY(-10px); }
+    .themes3 .r { transform: rotate(7deg) translate(-60px, 30px); }
+
+    /* Цифры */
+    .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 60px; }
+    .num-card { padding: 40px; border-radius: 28px; background: linear-gradient(180deg, rgba(20,38,80,.75), rgba(15,29,61,.75)); border: 1px solid var(--line); }
+    .num-card b { display: block; font-family: var(--font-head); font-size: 96px; font-weight: 800; line-height: 1; background: linear-gradient(135deg, #fff, var(--cyan)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .num-card span { display: block; margin-top: 12px; color: var(--muted); font-size: 28px; font-weight: 700; }
+
+    /* QR */
+    .qr-grid { display: grid; grid-template-columns: 1fr 470px; gap: 90px; align-items: center; }
+    .steps-big { list-style: none; margin: 46px 0 0; padding: 0; display: grid; gap: 18px; counter-reset: s; }
+    .steps-big li { display: grid; grid-template-columns: 64px 1fr; gap: 22px; align-items: center; padding: 22px 28px; border-radius: 24px; background: rgba(15,29,61,.75); border: 1px solid var(--line); }
+    .steps-big li::before { counter-increment: s; content: counter(s); width: 64px; height: 64px; border-radius: 50%; display: grid; place-items: center; background: linear-gradient(135deg, var(--cyan), var(--blue)); color: #04101f; font-family: var(--font-head); font-size: 30px; font-weight: 800; }
+    .steps-big b { display: block; font-size: 32px; }
+    .steps-big span { color: var(--muted); font-size: 25px; }
+    .qr-big { padding: 34px; border-radius: 36px; background: #fff; text-align: center; box-shadow: 0 0 120px rgba(34,211,238,.25); }
+    .qr-big img { width: 400px; height: 400px; display: block; }
+    .qr-big p { margin: 18px 0 0; color: #04101f; font-weight: 800; font-size: 26px; }
+    .url { margin-top: 34px; font-family: ui-monospace, Consolas, monospace; font-size: 27px; color: var(--cyan); }
+
+    .center { text-align: center; align-items: center; }
+    .center h1 { font-size: 150px; }
+
+    /* Подсказки докладчика (клавиша N) */
+    .notes {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 20;
+      padding: 18px 28px 22px; background: rgba(2, 5, 13, .94); border-top: 1px solid var(--line-strong);
+      color: var(--text); font-size: 20px; line-height: 1.5; display: none;
+    }
+    .notes.on { display: block; }
+    .notes-head { display: flex; gap: 24px; color: var(--muted); font-size: 15px; font-weight: 700; margin-bottom: 6px; }
+    .notes-head b { color: var(--amber); }
+    .progress { position: fixed; left: 0; bottom: 0; height: 5px; background: linear-gradient(90deg, var(--cyan), var(--violet)); z-index: 21; transition: width .3s ease; }
+    .hint { position: fixed; right: 16px; top: 12px; z-index: 22; color: rgba(255,255,255,.35); font-size: 13px; font-weight: 700; transition: opacity 1s; }
+
+    @media print {
+      @page { size: 1920px 1080px; margin: 0; }
+      html, body { height: auto; overflow: visible; background: var(--bg); }
+      .deck { position: static; display: block; }
+      .stage { position: static; transform: none !important; width: auto; height: auto; }
+      .slide { position: relative; width: 1920px; height: 1080px; opacity: 1; visibility: visible; page-break-after: always; break-after: page; }
+      .slide .anim { opacity: 1; transform: none; }
+      .notes, .progress, .hint { display: none !important; }
+      * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    }
+  </style>
+</head>
+<body>
+  <div class="deck"><div class="stage" id="stage">
+
+    <!-- 1 -->
+    <section class="slide" data-notes="Здравствуйте! Меня зовут Богдан Кафеев. Вместе с Семеном Прыкиным мы сделали приложение «АСОШ Таймер». Это бесплатный помощник для учеников и учителей АСОШ №2: в одном месте звонки, расписание, домашние задания, замены, объявления и чат класса. Сейчас расскажем, зачем мы его сделали и что оно умеет.">
+      <div class="title-grid">
+        <div>
+          <p class="badge anim">МОУ АСОШ №2 · с. Аргаяш</p>
+          <h1 class="anim" style="margin-top:36px">АСОШ <span class="accent">Таймер</span></h1>
+          <p class="sub anim">Вся школа в телефоне: звонки, расписание, домашка, замены и объявления учителей</p>
+          <p class="authors anim">Авторы: <b>Богдан Кафеев</b> и <b>Семен Прыкин</b> · 2026</p>
+        </div>
+        <div class="phone-wrap anim"><div class="iphone"><img src="img/screen-main.jpg" alt="Главный экран приложения" width="393" height="852" /></div></div>
+      </div>
+    </section>
+
+    <!-- 2 -->
+    <section class="slide" data-notes="Начнём с проблемы. Каждый день на переменах мы слышим одни и те же вопросы: «Какой следующий урок?», «Сколько до звонка?», «Что задали?», «Есть ли замены?». Расписание лежит на фотографиях в разных чатах, домашку записывают где попало, а про замены узнают уже у закрытого кабинета. Мы подумали: почему бы не собрать все ответы в одном месте?">
+      <p class="kick anim">Проблема</p>
+      <h2 class="anim">Четыре вопроса на каждой перемене</h2>
+      <div class="grid2 anim">
+        <div class="qcard"><div class="ic">❓</div><b>«Какой следующий урок?»</b><span>Расписание теряется в чатах и на фотографиях.</span></div>
+        <div class="qcard"><div class="ic">⏰</div><b>«Сколько до звонка?»</b><span>Две смены, сокращённые дни — легко запутаться.</span></div>
+        <div class="qcard"><div class="ic">📝</div><b>«Что задали?»</b><span>Домашка записана где попало или не записана вовсе.</span></div>
+        <div class="qcard"><div class="ic">🔁</div><b>«Есть ли замены?»</b><span>Об изменениях узнают уже у закрытого кабинета.</span></div>
+      </div>
+    </section>
+
+    <!-- 3 -->
+    <section class="slide" data-notes="Так появился «АСОШ Таймер». Открываешь — и сразу видно, какой урок идёт и сколько минут до звонка. Приложение полностью бесплатное и без рекламы. Оно открывается по ссылке на телефоне или компьютере, а для Android есть отдельное приложение. И что важно для нашего села: оно работает даже без интернета.">
+      <div class="split">
+        <div>
+          <p class="kick anim">Решение</p>
+          <h2 class="anim">Одно приложение вместо десятка чатов</h2>
+          <ul class="list anim">
+            <li><span class="ic">⏱</span><div><b>Таймер до звонка</b><span>Видно, какой урок идёт и сколько осталось.</span></div></li>
+            <li><span class="ic">🆓</span><div><b>Бесплатно и без рекламы</b><span>Никаких подписок и платных функций.</span></div></li>
+            <li><span class="ic">📱</span><div><b>Android, iPhone, компьютер</b><span>По ссылке в браузере или как приложение.</span></div></li>
+            <li><span class="ic">📶</span><div><b>Работает без интернета</b><span>Расписание, таймер и ДЗ — даже без связи.</span></div></li>
+          </ul>
+        </div>
+        <div class="phone-wrap anim"><div class="iphone"><img src="img/theme-space.jpg" alt="Главный экран в теме «Космос»" width="393" height="852" /></div></div>
+      </div>
+    </section>
+
+    <!-- 4 -->
+    <section class="slide" data-notes="В приложении есть расписание классов с пятого по одиннадцатый, для обеих смен и подгрупп. За пять минут до урока оно напомнит, какой урок следующий, а за две минуты — что скоро звонок. Можно посмотреть уроки на сегодня, на завтра и на всю неделю. А ещё приложение знает про выходные, каникулы и праздники: в эти дни оно не звенит и показывает, сколько дней осталось отдыхать.">
+      <div class="split left">
+        <div class="phone-wrap anim"><div class="iphone"><img src="img/screen-lessons.jpg" alt="Уроки на сегодня" width="393" height="852" /></div></div>
+        <div>
+          <p class="kick anim">Каждый день</p>
+          <h2 class="anim">Звонки и расписание</h2>
+          <ul class="list anim">
+            <li><span class="ic">🏫</span><div><b>Классы с 5-го по 11-й</b><span>Обе смены и подгруппы.</span></div></li>
+            <li><span class="ic">🔔</span><div><b>Напоминания</b><span>За 5 минут до урока и за 2 минуты до звонка.</span></div></li>
+            <li><span class="ic">📅</span><div><b>Сегодня, завтра, неделя</b><span>Сокращённые дни тоже учитываются.</span></div></li>
+            <li class="new"><span class="ic">🏖️</span><div><b>Каникулы и праздники <i class="tag">НОВОЕ</i></b><span>Не звенит в выходные и считает дни до учёбы.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 -->
+    <section class="slide" data-notes="Теперь про учёбу. Домашку можно записать по предметам и даже сфотографировать доску. А главное — ей можно поделиться с классом: один записал, и все одноклассники увидели. Так же работают замены: кто-то из класса добавил замену — и она сразу появилась в расписании у всех. А вечером приложение подскажет, какие учебники положить в портфель на завтра.">
+      <div class="split">
+        <div>
+          <p class="kick anim">Учёба</p>
+          <h2 class="anim">Домашка и замены — для всего класса</h2>
+          <ul class="list anim">
+            <li><span class="ic">📘</span><div><b>Дневник ДЗ</b><span>По предметам, с фото доски, отметка «сделано».</span></div></li>
+            <li><span class="ic">👥</span><div><b>Общее ДЗ класса</b><span>Один записал — увидели все одноклассники.</span></div></li>
+            <li><span class="ic">🔁</span><div><b>Замены уроков</b><span>Отметил замену — она сразу у всего класса.</span></div></li>
+            <li><span class="ic">🎒</span><div><b>Портфель на завтра</b><span>Список учебников по расписанию.</span></div></li>
+          </ul>
+        </div>
+        <div class="phone-wrap anim"><div class="iphone"><img src="img/screen-homework.jpg" alt="Домашние задания" width="393" height="852" /></div></div>
+      </div>
+    </section>
+
+    <!-- 6 -->
+    <section class="slide" data-notes="Для тех, кто следит за оценками, есть калькулятор оценок: вводишь оценки, и он показывает, сколько пятёрок нужно, чтобы выйти на нужную оценку за четверть. В календаре — каникулы, праздники, контрольные от учителей и свои события, а ещё обратный отсчёт до конца учебного года. И шпаргалки с формулами по математике, физике и химии.">
+      <div class="split left">
+        <div class="phone-wrap anim"><div class="iphone"><img src="img/screen-calendar.jpg" alt="Календарь с контрольными и каникулами" width="393" height="852" /></div></div>
+        <div>
+          <p class="kick anim">Успеваемость</p>
+          <h2 class="anim">Оценки, четверть, календарь</h2>
+          <ul class="list anim">
+            <li><span class="ic">🧮</span><div><b>Калькулятор оценок</b><span>Сколько пятёрок нужно до нужной оценки.</span></div></li>
+            <li><span class="ic">📊</span><div><b>Четверть</b><span>Сколько пройдено и сколько дней до каникул.</span></div></li>
+            <li><span class="ic">🗓</span><div><b>Календарь</b><span>Каникулы, праздники, контрольные от учителей.</span></div></li>
+            <li><span class="ic">📐</span><div><b>Формулы</b><span>Шпаргалки по математике, физике и химии.</span></div></li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7 -->
+    <section class="slide" data-notes="Новое в этой версии — кабинет учителя. Учитель входит по личному одноразовому коду и может написать объявление классу или всей школе — оно появится прямо на главном экране у учеников. Контрольные и мероприятия сразу попадают в календарь, а домашка от учителя выделяется и стоит в списке первой. Код одноразовый, поэтому войти им на чужом телефоне нельзя.">
+      <p class="kick anim">Новое · для учителей</p>
+      <h2 class="anim">Кабинет учителя</h2>
+      <p class="sub anim" style="margin-top:20px">Вход по личному одноразовому коду — и сообщение сразу у всего класса или всей школы.</p>
+      <div class="grid2 anim" style="grid-template-columns:repeat(4,1fr);margin-top:50px">
+        <div class="qcard amber"><div class="ic">📢</div><b>Объявления</b><span>На главном экране у учеников.</span></div>
+        <div class="qcard amber"><div class="ic">🗓️</div><b>События</b><span>Сразу в календаре класса.</span></div>
+        <div class="qcard amber"><div class="ic">📘</div><b>ДЗ классу</b><span>Выделено и стоит первым.</span></div>
+        <div class="qcard amber"><div class="ic">🔐</div><b>Одноразовый код</b><span>На втором телефоне не сработает.</span></div>
+      </div>
+    </section>
+
+    <!-- 8 -->
+    <section class="slide" data-notes="Мы подумали и о школе в целом. Есть режим для телевизора или проектора: крупные часы, текущий урок и сколько осталось до звонка. Его можно включить в холле или в кабинете — экран не гаснет сам и работает весь день. Включается в один клик: Главная, «Экран для ТВ», «Во весь экран».">
+      <p class="kick anim">Для школы</p>
+      <h2 class="anim">Экран для телевизора в холле</h2>
+      <div class="tv anim" style="margin-top:46px">
+        <div class="tv-screen">
+          <div class="tv-card tv-main">
+            <div class="tv-clock">10:05</div>
+            <div class="tv-date">Среда, 11 ноября</div>
+            <div class="tv-label">До звонка с урока</div>
+            <div class="tv-timer">14:59</div>
+            <div class="tv-bar"><i></i></div>
+            <div class="tv-now">Литература</div>
+          </div>
+          <div class="tv-card tv-list">
+            <h3>Уроки сегодня · 7А</h3>
+            <ol>
+              <li><i>1</i><b>Математика</b><span>08:00</span></li>
+              <li><i>2</i><b>Биология</b><span>08:50</span></li>
+              <li class="cur"><i>3</i><b>Литература</b><span>09:40</span></li>
+              <li><i>4</i><b>Иностранный язык</b><span>10:35</span></li>
+              <li><i>5</i><b>Математика</b><span>11:30</span></li>
+              <li><i>6</i><b>Технология</b><span>12:20</span></li>
+            </ol>
+          </div>
+        </div>
+        <div class="tv-stand"></div>
+      </div>
+    </section>
+
+    <!-- 9 -->
+    <section class="slide" data-notes="Каждый может настроить приложение под себя: в нём двадцать четыре темы оформления. И это не просто другой цвет — меняются фон, форма карточек, шрифты и анимации. Тетрадь в клетку, космос со звёздами, цветущая сакура и другие. А можно включить режим, когда тема сама подстраивается под телефон: днём светлая, ночью тёмная.">
+      <div class="split" style="grid-template-columns:1fr 900px">
+        <div>
+          <p class="kick anim">Оформление</p>
+          <h2 class="anim">24 темы —<br />не только цвет</h2>
+          <p class="sub anim">Меняются фон, карточки, шрифт и анимации. Или тема сама подстраивается под телефон.</p>
+        </div>
+        <div class="themes3 anim">
+          <div class="iphone is-light l"><img src="img/theme-notebook.jpg" alt="Тема «Тетрадь в клетку»" width="393" height="852" /></div>
+          <div class="iphone m"><img src="img/screen-themes.jpg" alt="Выбор темы" width="393" height="852" /></div>
+          <div class="iphone is-light r"><img src="img/theme-blossom.jpg" alt="Тема «Цветущая вишня»" width="393" height="852" /></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 10 -->
+    <section class="slide" data-notes="Чтобы приложением было интересно пользоваться, мы добавили шестнадцать достижений — за каждое есть подсказка, как его получить. Есть восемь мини-игр на перемену. Но важно: во время урока игры автоматически закрываются, так что приложение не отвлекает от учёбы. А для домашки есть таймер Помодоро и фоновые звуки для концентрации.">
+      <p class="kick anim">Мотивация</p>
+      <h2 class="anim">Достижения и игры на перемену</h2>
+      <div class="grid2 anim">
+        <div class="qcard"><div class="ic">🏆</div><b>16 достижений</b><span>С подсказками, как получить каждое.</span></div>
+        <div class="qcard"><div class="ic">🎮</div><b>8 мини-игр</b><span>Змейка, дуэль, память, реакция и другие.</span></div>
+        <div class="qcard"><div class="ic">🚫</div><b>На уроке игры закрыты</b><span>Приложение не отвлекает от занятий.</span></div>
+        <div class="qcard"><div class="ic">🍅</div><b>Помодоро и фокус-звуки</b><span>Чтобы делать уроки без отвлечений.</span></div>
+      </div>
+    </section>
+
+    <!-- 11 -->
+    <section class="slide" data-notes="Отдельно мы позаботились о безопасности. Приложение не просит ни почту, ни номер телефона. Чат класса открывается только по секретному коду, который выдаёт классный руководитель, — посторонние туда не попадут. Если кода нет, можно войти гостем и пользоваться всем, кроме чата. Можно поставить PIN-код, а при смене телефона — перенести все данные по QR-коду.">
+      <p class="kick anim">Безопасность</p>
+      <h2 class="anim">Данные под защитой</h2>
+      <div class="grid2 anim">
+        <div class="qcard"><div class="ic">🔑</div><b>Чат по коду класса</b><span>Коды выдают классные руководители.</span></div>
+        <div class="qcard"><div class="ic">👀</div><b>Гостевой вход</b><span>Всё без кода — кроме чата класса.</span></div>
+        <div class="qcard"><div class="ic">📱</div><b>Данные на телефоне</b><span>Без почты, номера телефона и паролей.</span></div>
+        <div class="qcard"><div class="ic">🔒</div><b>PIN-код и QR-перенос</b><span>Пароль на вход и переезд на новый телефон.</span></div>
+      </div>
+    </section>
+
+    <!-- 12 -->
+    <section class="slide" data-notes="Немного цифр. Двадцать четыре темы оформления, шестнадцать достижений и восемь мини-игр. Приложение для Android весит всего три и шесть десятых мегабайта. Для учеников и учителей всё бесплатно. И всё это сделали два человека.">
+      <p class="kick anim">В цифрах</p>
+      <h2 class="anim">Что уже сделано</h2>
+      <div class="nums anim">
+        <div class="num-card"><b>24</b><span>темы оформления</span></div>
+        <div class="num-card"><b>16</b><span>достижений</span></div>
+        <div class="num-card"><b>8</b><span>мини-игр</span></div>
+        <div class="num-card"><b>3,6 МБ</b><span>приложение для Android</span></div>
+        <div class="num-card"><b>0 ₽</b><span>для учеников и учителей</span></div>
+        <div class="num-card"><b>2</b><span>автора</span></div>
+      </div>
+    </section>
+
+    <!-- 13 -->
+    <section class="slide" data-notes="Мы делали приложение на тех же технологиях, что и большие современные сервисы: React и TypeScript для интерфейса и Firebase для чата и общих данных класса. Сайт размещён на GitHub Pages: после каждого нашего изменения он обновляется сам, и так же автоматически собирается приложение для Android.">
+      <p class="kick anim">Как мы делали</p>
+      <h2 class="anim">Настоящие технологии</h2>
+      <div class="grid2 anim">
+        <div class="qcard"><div class="ic">⚛️</div><b>React + TypeScript</b><span>Как в больших современных сервисах.</span></div>
+        <div class="qcard"><div class="ic">🔥</div><b>Firebase</b><span>Чат, общее ДЗ, замены и объявления в реальном времени.</span></div>
+        <div class="qcard"><div class="ic">🌐</div><b>GitHub Pages</b><span>Сайт обновляется сам после каждого изменения.</span></div>
+        <div class="qcard"><div class="ic">📦</div><b>Android-APK</b><span>Собирается автоматически и подписан нашим ключом.</span></div>
+      </div>
+    </section>
+
+    <!-- 14 -->
+    <section class="slide" data-notes="У нас есть планы на будущее. Мы хотим подключить другие школы района — АСОШ №1 и Краснооктябрьскую. Ещё хотим выложить приложение в RuStore и Google Play и добавить расписание для всех классов школы. И конечно, будем добавлять то, о чём попросят ученики и учителя.">
+      <p class="kick anim">Планы</p>
+      <h2 class="anim">Что дальше</h2>
+      <div class="grid2 anim">
+        <div class="qcard"><div class="ic">🏫</div><b>Другие школы района</b><span>АСОШ №1 и Краснооктябрьская.</span></div>
+        <div class="qcard"><div class="ic">🛒</div><b>RuStore и Google Play</b><span>Установка из магазина приложений.</span></div>
+        <div class="qcard"><div class="ic">📅</div><b>Расписание всех классов</b><span>Добавим классы, которых пока нет.</span></div>
+        <div class="qcard"><div class="ic">💡</div><b>Ваши идеи</b><span>Добавим то, что попросят ученики и учителя.</span></div>
+      </div>
+    </section>
+
+    <!-- 15 -->
+    <section class="slide" data-notes="Попробовать можно прямо сейчас: наведите камеру телефона на QR-код на экране. Откроется сайт приложения: на Android можно сразу скачать APK, а на iPhone и компьютере — открыть приложение в браузере. Дальше введите имя и код своего класса или войдите гостем. Код класса можно получить у классного руководителя. (Держи этот слайд подольше.)">
+      <div class="qr-grid">
+        <div>
+          <p class="kick cyan anim">Попробуйте</p>
+          <h2 class="anim">Наведите камеру на QR-код</h2>
+          <ol class="steps-big anim">
+            <li><div><b>Откройте сайт</b><span>Камерой телефона по QR-коду.</span></div></li>
+            <li><div><b>Скачайте APK или откройте в браузере</b><span>APK — для Android, браузер — для iPhone и компьютера.</span></div></li>
+            <li><div><b>Введите имя и код класса</b><span>Или войдите гостем.</span></div></li>
+          </ol>
+          <p class="url anim">kafeevbogdan347-ui.github.io/asosh-timer-site</p>
+        </div>
+        <div class="qr-big anim"><img src="img/qr-download.svg" alt="QR-код на сайт приложения" width="400" height="400" /><p>Сайт и APK</p></div>
+      </div>
+    </section>
+
+    <!-- 16 -->
+    <section class="slide center" data-notes="Спасибо за внимание! Будем рады ответить на ваши вопросы.">
+      <h1 class="anim">Спасибо! <span class="accent">Вопросы?</span></h1>
+      <p class="sub anim" style="margin:30px auto 0">АСОШ Таймер — бесплатно для всех учеников и учителей</p>
+      <div class="qr-big anim" style="width:330px;margin:50px auto 0;padding:24px"><img src="img/qr-download.svg" alt="QR-код на сайт приложения" style="width:280px;height:280px;margin:0 auto" /><p style="font-size:22px">Сайт и APK</p></div>
+    </section>
+
+  </div></div>
+
+  <div class="progress" id="progress"></div>
+  <div class="hint" id="hint">← → листать · F — весь экран · N — подсказки</div>
+  <div class="notes" id="notes"><div class="notes-head"><b id="n-count"></b><span id="n-time"></span><span id="n-next"></span></div><div id="n-text"></div></div>
+
+  <script>
+    const slides = [...document.querySelectorAll('.slide')];
+    const stage = document.getElementById('stage');
+    const total = slides.length;
+
+    // Номер и логотип внизу каждого слайда, кроме первого и последнего
+    slides.forEach((s, i) => {
+      if (i === 0 || i === total - 1) return;
+      s.insertAdjacentHTML('beforeend', `<div class="s-foot"><span><img src="icon.svg" alt="" />АСОШ Таймер</span><span>${i + 1} / ${total}</span></div>`);
+    });
+
+    // Детали iPhone поверх скриншотов (как на сайте)
+    const ICONS =
+      '<svg viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg>' +
+      '<svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M8 2.2c2.4 0 4.6.9 6.3 2.5l1.3-1.3A10.8 10.8 0 0 0 8 .3 10.8 10.8 0 0 0 .4 3.4l1.3 1.3A9 9 0 0 1 8 2.2zm0 3.7c1.4 0 2.7.5 3.7 1.4L13 6a7.3 7.3 0 0 0-10 0l1.3 1.3c1-.9 2.3-1.4 3.7-1.4zm0 3.6c-.6 0-1.2.2-1.6.6L8 11.7l1.6-1.6c-.4-.4-1-.6-1.6-.6z"/></svg>' +
+      '<svg viewBox="0 0 27 12" aria-hidden="true"><rect x=".5" y=".5" width="23" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="17" height="8" rx="2" fill="currentColor"/><path d="M25 4v4c.8-.3 1.3-1.1 1.3-2S25.8 4.3 25 4z" fill="currentColor" opacity=".5"/></svg>';
+    document.querySelectorAll('.iphone').forEach((el) => {
+      el.insertAdjacentHTML('beforeend', `<i class="island"></i><div class="sb"><span>10:05</span><span class="sb-icons">${ICONS}</span></div><i class="home-bar"></i>`);
+    });
+
+    // Масштаб сцены под окно, с полями по краям
+    function fit() {
+      const k = Math.min(innerWidth / 1920, innerHeight / 1080);
+      stage.style.transform = `translate(-50%, -50%) scale(${k})`;
+    }
+    addEventListener('resize', fit);
+    fit();
+
+    let cur = 0;
+    const startedAt = Date.now();
+    const notesEl = document.getElementById('notes');
+    function show(i) {
+      cur = Math.max(0, Math.min(total - 1, i));
+      slides.forEach((s, k) => s.classList.toggle('active', k === cur));
+      document.getElementById('progress').style.width = `${((cur + 1) / total) * 100}%`;
+      document.getElementById('n-count').textContent = `Слайд ${cur + 1} из ${total}`;
+      const next = slides[cur + 1]?.querySelector('h1, h2');
+      document.getElementById('n-next').textContent = next ? `Дальше: ${next.textContent.replace(/\s+/g, ' ').trim()}` : 'Последний слайд';
+      document.getElementById('n-text').textContent = slides[cur].dataset.notes || '';
+      history.replaceState(null, '', `#${cur + 1}`);
+    }
+    setInterval(() => {
+      const s = Math.floor((Date.now() - startedAt) / 1000);
+      document.getElementById('n-time').textContent = `⏱ ${Math.floor(s / 60)}:${String(s % 60).padStart(2, '0')}`;
+    }, 1000);
+
+    addEventListener('keydown', (e) => {
+      const k = e.key;
+      if (['ArrowRight', 'ArrowDown', 'PageDown', ' ', 'Enter'].includes(k)) { e.preventDefault(); show(cur + 1); }
+      else if (['ArrowLeft', 'ArrowUp', 'PageUp', 'Backspace'].includes(k)) { e.preventDefault(); show(cur - 1); }
+      else if (k === 'Home') show(0);
+      else if (k === 'End') show(total - 1);
+      else if (k === 'f' || k === 'F' || k === 'а' || k === 'А') {
+        if (document.fullscreenElement) document.exitFullscreen();
+        else document.documentElement.requestFullscreen?.().catch(() => {});
+      } else if (k === 'n' || k === 'N' || k === 'т' || k === 'Т') notesEl.classList.toggle('on');
+    });
+    // Клик по правой части — дальше, по левой — назад; на телефоне — свайп
+    document.querySelector('.deck').addEventListener('click', (e) => show(cur + (e.clientX > innerWidth / 3 ? 1 : -1)));
+    let tx = null;
+    addEventListener('touchstart', (e) => (tx = e.touches[0].clientX), { passive: true });
+    addEventListener('touchend', (e) => {
+      if (tx === null) return;
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 40) show(cur + (dx < 0 ? 1 : -1));
+      tx = null;
+    });
+
+    setTimeout(() => (document.getElementById('hint').style.opacity = '0'), 4000);
+    show((parseInt(location.hash.slice(1), 10) || 1) - 1);
+  </script>
+</body>
+</html>
