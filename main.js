@@ -19,7 +19,7 @@ const STATUS_ICONS =
 document.querySelectorAll('.iphone').forEach((el) => {
   el.insertAdjacentHTML(
     'beforeend',
-    `<i class="island" aria-hidden="true"></i><div class="sb" aria-hidden="true"><span>10:05</span><span class="sb-icons">${STATUS_ICONS}</span></div><i class="home-bar" aria-hidden="true"></i>`
+    `<i class="island" aria-hidden="true"></i><div class="sb" aria-hidden="true"><span>9:41</span><span class="sb-icons">${STATUS_ICONS}</span></div><i class="home-bar" aria-hidden="true"></i>`
   );
 });
 

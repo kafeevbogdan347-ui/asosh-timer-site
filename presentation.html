@@ -8,7 +8,7 @@
   <link rel="icon" type="image/svg+xml" href="icon.svg" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@600&family=Manrope:wght@500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="style.css" />
   <style>
     /* Презентация: слайды 1920×1080 масштабируются под любой экран */
@@ -108,7 +108,7 @@
     .tv-label { margin-top: 18px; font-size: 24px; font-weight: 700; color: #cfd8ea; }
     .tv-timer { font-size: 96px; font-weight: 800; line-height: 1; color: #5eead4; font-variant-numeric: tabular-nums; }
     .tv-bar { width: 80%; height: 10px; border-radius: 99px; background: rgba(255,255,255,.1); margin: 12px auto 0; overflow: hidden; }
-    .tv-bar i { display: block; width: 62%; height: 100%; background: linear-gradient(90deg, #2dd4bf, #3b82f6); }
+    .tv-bar i { display: block; width: 4%; height: 100%; background: linear-gradient(90deg, #2dd4bf, #3b82f6); }
     .tv-now { margin-top: 12px; font-size: 32px; font-weight: 800; }
     .tv-list h3 { font-family: var(--font-body); font-size: 24px; font-weight: 800; margin-bottom: 10px; }
     .tv-list ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
@@ -287,10 +287,10 @@
       <div class="tv anim" style="margin-top:46px">
         <div class="tv-screen">
           <div class="tv-card tv-main">
-            <div class="tv-clock">10:05</div>
+            <div class="tv-clock">9:41</div>
             <div class="tv-date">Среда, 11 ноября</div>
             <div class="tv-label">До звонка с урока</div>
-            <div class="tv-timer">14:59</div>
+            <div class="tv-timer">38:59</div>
             <div class="tv-bar"><i></i></div>
             <div class="tv-now">Литература</div>
           </div>
@@ -435,7 +435,7 @@
       '<svg viewBox="0 0 16 12" aria-hidden="true"><path fill="currentColor" d="M8 2.2c2.4 0 4.6.9 6.3 2.5l1.3-1.3A10.8 10.8 0 0 0 8 .3 10.8 10.8 0 0 0 .4 3.4l1.3 1.3A9 9 0 0 1 8 2.2zm0 3.7c1.4 0 2.7.5 3.7 1.4L13 6a7.3 7.3 0 0 0-10 0l1.3 1.3c1-.9 2.3-1.4 3.7-1.4zm0 3.6c-.6 0-1.2.2-1.6.6L8 11.7l1.6-1.6c-.4-.4-1-.6-1.6-.6z"/></svg>' +
       '<svg viewBox="0 0 27 12" aria-hidden="true"><rect x=".5" y=".5" width="23" height="11" rx="3.2" fill="none" stroke="currentColor" opacity=".45"/><rect x="2" y="2" width="17" height="8" rx="2" fill="currentColor"/><path d="M25 4v4c.8-.3 1.3-1.1 1.3-2S25.8 4.3 25 4z" fill="currentColor" opacity=".5"/></svg>';
     document.querySelectorAll('.iphone').forEach((el) => {
-      el.insertAdjacentHTML('beforeend', `<i class="island"></i><div class="sb"><span>10:05</span><span class="sb-icons">${ICONS}</span></div><i class="home-bar"></i>`);
+      el.insertAdjacentHTML('beforeend', `<i class="island"></i><div class="sb"><span>9:41</span><span class="sb-icons">${ICONS}</span></div><i class="home-bar"></i>`);
     });
 
     // Масштаб сцены под окно, с полями по краям

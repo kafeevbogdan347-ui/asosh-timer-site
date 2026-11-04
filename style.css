@@ -368,9 +368,11 @@ h2 { font-size: clamp(28px, 3.8vw, 44px); font-weight: 700; letter-spacing: -0.0
   align-items: center;
   padding: 0 7.5cqw 0 10cqw;
   color: #fff;
-  font-family: -apple-system, 'SF Pro Text', 'Segoe UI', system-ui, sans-serif;
-  font-size: 4.1cqw;
-  font-weight: 700;
+  /* Как в iOS: на Apple-устройствах настоящий SF Pro, на остальных — похожий Inter */
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Inter', system-ui, sans-serif;
+  font-size: 4.3cqw;
+  font-weight: 600;
+  letter-spacing: -0.02em;
   line-height: 1;
   pointer-events: none;
 }
