@@ -2,7 +2,7 @@
 <html lang="ru">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
   <title>АСОШ Таймер — промо</title>
   <meta name="description" content="Анимированный ролик про АСОШ Таймер для показа на проекторе: например, на «Разговоре о важном»." />
   <meta name="robots" content="noindex" />
@@ -21,6 +21,8 @@
     * { box-sizing: border-box; }
     html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
     body { display: grid; place-items: center; font-family: var(--body); color: var(--text); cursor: pointer; user-select: none; }
+    /* Рамка на весь экран: ролик внутри неё не растягивает страницу на телефоне */
+    #frame { position: fixed; inset: 0; overflow: hidden; }
     #stage {
       width: 1920px; height: 1080px; position: absolute; left: 50%; top: 50%; overflow: hidden;
       background: radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.16), transparent 45%),
@@ -111,6 +113,8 @@
     #bar { position: absolute; left: 0; bottom: 0; height: 8px; background: linear-gradient(90deg, var(--cyan), var(--violet)); width: 0; }
     #hint { position: fixed; bottom: 14px; right: 18px; font: 600 13px var(--body); color: rgba(255, 255, 255, 0.45); transition: opacity 0.6s; pointer-events: none; }
     body.paused #hint { opacity: 1 !important; }
+    #rotate { display: none; position: fixed; top: 24px; left: 0; right: 0; text-align: center; font: 700 15px var(--body); color: rgba(255, 255, 255, 0.6); pointer-events: none; }
+    @media (orientation: portrait) and (max-width: 700px) { #rotate { display: block; } #hint { display: none; } }
 
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { animation-duration: 0.01s !important; animation-iteration-count: 1 !important; }
@@ -118,6 +122,7 @@
   </style>
 </head>
 <body>
+  <div id="frame">
   <div id="stage">
     <div class="bgdot" style="width:600px;height:600px;left:-100px;top:-120px;background:#22d3ee"></div>
     <div class="bgdot" style="width:700px;height:700px;right:-200px;bottom:-200px;background:#8b5cf6;animation-delay:-6s"></div>
@@ -231,6 +236,8 @@
 
     <div id="bar"></div>
   </div>
+  </div>
+  <div id="rotate">📱 Поверни телефон — так крупнее</div>
   <div id="hint">Пробел — пауза · ← → — сцены · F — на весь экран</div>
 
   <script>
@@ -242,8 +249,15 @@
     let idx = 0, elapsed = 0, last = performance.now(), paused = false;
 
     // Сцена 1920×1080 вписывается в окно
-    const fit = () => { stage.style.transform = `translate(-50%, -50%) scale(${Math.min(innerWidth / 1920, innerHeight / 1080)})`; };
-    addEventListener('resize', fit); fit();
+    const frame = document.getElementById('frame');
+    const fit = () => {
+      const w = frame.clientWidth, h = frame.clientHeight;
+      stage.style.transform = `translate(-50%, -50%) scale(${Math.min(w / 1920, h / 1080)})`;
+    };
+    addEventListener('resize', fit);
+    addEventListener('orientationchange', () => setTimeout(fit, 300));
+    window.visualViewport?.addEventListener('resize', fit);
+    fit();
 
     const show = (i) => {
       idx = (i + scenes.length) % scenes.length;
