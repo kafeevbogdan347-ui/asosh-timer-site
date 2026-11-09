@@ -119,6 +119,10 @@
     .cta li { margin: 12px 0; }
     .url { font-size: 34px; color: var(--muted); font-weight: 700; }
 
+    .qr { position: relative; z-index: 3; }
+    .confetti { position: absolute; z-index: 2; top: -40px; width: 18px; height: 28px; border-radius: 4px; opacity: 0.9; animation: fall linear forwards; pointer-events: none; }
+    @keyframes fall { to { transform: translate(var(--dx), 1180px) rotate(var(--rot)); } }
+    @media (prefers-reduced-motion: reduce) { .confetti { display: none; } }
     #bar { position: absolute; left: 0; bottom: 0; height: 8px; background: linear-gradient(90deg, var(--cyan), var(--violet)); width: 0; }
 
     /* Экран старта: звук в браузере включается только после нажатия */
@@ -298,7 +302,7 @@
   <div id="start">
     <div class="asoshik-slot" style="width:min(38vw,38vh);height:min(38vw,38vh)"></div>
     <h1>Асошик расскажет про <span class="grad">АСОШ Таймер</span></h1>
-    <button type="button" id="go">▶ Смотреть со звуком</button>
+    <button type="button" id="go">▶ Смотреть со звуком и музыкой</button>
     <button type="button" class="mute" id="go-mute">без звука, с субтитрами</button>
     <p>Пробел — пауза · ← → — сцены · M — звук · F — на весь экран</p>
   </div>
@@ -400,17 +404,74 @@
     const audio = new Audio();
     audio.preload = 'auto';
     let analyser = null, buf = null, withSound = true, muted = false;
+    let actx = null, master = null, musicGain = null;
+    // Фоновая музыка (promo/music.mp3, 16 тактов) крутится без шва через AudioBuffer;
+    // пока Асошик говорит, она тише. Всё идёт через один общий регулятор громкости
+    const MUSIC_LOUD = 0.34, MUSIC_UNDER_VOICE = 0.1, LOOP_END = 36.923;
     const initAudio = () => {
       try {
-        const actx = new (window.AudioContext || window.webkitAudioContext)();
+        actx = new (window.AudioContext || window.webkitAudioContext)();
+        master = actx.createGain();
+        master.connect(actx.destination);
         const src = actx.createMediaElementSource(audio);
         analyser = actx.createAnalyser();
         analyser.fftSize = 1024;
         buf = new Uint8Array(analyser.fftSize);
         src.connect(analyser);
-        analyser.connect(actx.destination);
+        analyser.connect(master);
+        musicGain = actx.createGain();
+        musicGain.gain.value = 0;
+        musicGain.connect(master);
+        fetch('promo/music.mp3')
+          .then((r) => r.arrayBuffer())
+          .then((data) => new Promise((ok, fail) => actx.decodeAudioData(data, ok, fail)))
+          .then((buffer) => {
+            const m = actx.createBufferSource();
+            m.buffer = buffer;
+            m.loop = true;
+            m.loopEnd = Math.min(LOOP_END, buffer.duration);
+            m.connect(musicGain);
+            m.start();
+            musicGain.gain.setTargetAtTime(musicTarget >= 0 ? musicTarget : MUSIC_LOUD, actx.currentTime, 1.2);
+          })
+          .catch(() => {});
         actx.resume();
       } catch (e) { analyser = null; }
+    };
+    let musicTarget = -1;
+    const setMusic = (v) => {
+      if (!musicGain || v === musicTarget) return;
+      musicTarget = v;
+      musicGain.gain.setTargetAtTime(v, actx.currentTime, 0.25);
+    };
+    // Конфетти на последней сцене с QR-кодом
+    const confetti = () => {
+      const colors = ['#2dd4bf', '#22d3ee', '#a78bfa', '#fbbf24', '#f472b6', '#ffffff'];
+      for (let k = 0; k < 90; k++) {
+        const c = document.createElement('div');
+        c.className = 'confetti';
+        c.style.left = Math.random() * 1920 + 'px';
+        c.style.background = colors[k % colors.length];
+        c.style.setProperty('--dx', (Math.random() * 400 - 200) + 'px');
+        c.style.setProperty('--rot', (Math.random() * 1080 - 540) + 'deg');
+        c.style.animationDuration = 2.6 + Math.random() * 2.4 + 's';
+        c.style.animationDelay = Math.random() * 1.2 + 's';
+        stage.appendChild(c);
+        setTimeout(() => c.remove(), 6500);
+      }
+    };
+    // Мягкий «вжух» при смене сцены: шум через фильтр с убегающей частотой
+    const whoosh = () => {
+      if (!actx || muted) return;
+      const len = 0.55, n = Math.floor(actx.sampleRate * len);
+      const b = actx.createBuffer(1, n, actx.sampleRate), d = b.getChannelData(0);
+      for (let k = 0; k < n; k++) d[k] = (Math.random() * 2 - 1) * Math.sin((Math.PI * k) / n);
+      const src = actx.createBufferSource(); src.buffer = b;
+      const f = actx.createBiquadFilter(); f.type = 'bandpass'; f.Q.value = 1.2;
+      f.frequency.setValueAtTime(400, actx.currentTime);
+      f.frequency.exponentialRampToValueAtTime(3500, actx.currentTime + len);
+      const g = actx.createGain(); g.gain.value = 0.09;
+      src.connect(f); f.connect(g); g.connect(master); src.start();
     };
     // Заранее подгружаем озвучку, чтобы не было пауз
     LINES.forEach((l) => { const a = new Audio(); a.preload = 'auto'; a.src = l.file; });
@@ -436,6 +497,8 @@
       });
       host.classList.toggle('hide', scenes[idx].dataset.host === 'hide');
       audio.pause();
+      whoosh();
+      if (idx === scenes.length - 1) confetti();
       setSub(LINES[idx]?.text || '');
     };
 
@@ -465,6 +528,7 @@
         } else if (talking) {
           level = 0.25 + 0.45 * Math.abs(Math.sin(now / 85)) * (0.6 + 0.4 * Math.sin(now / 330));
         }
+        if (withSound) setMusic(talking ? MUSIC_UNDER_VOICE : MUSIC_LOUD);
         const open = level > 0.07;
         mouths.forEach((m) => { m.setAttribute('ry', (0.8 + level * 4).toFixed(2)); m.setAttribute('opacity', open ? 1 : 0); });
         smiles.forEach((s) => s.setAttribute('opacity', open ? 0 : 1));
@@ -500,6 +564,7 @@
       document.body.classList.toggle('paused', paused);
       document.querySelectorAll('#stage *').forEach((el) => (el.style.animationPlayState = paused ? 'paused' : ''));
       if (withSound && voiceStarted) { if (paused) audio.pause(); else if (!audio.ended) audio.play().catch(() => {}); }
+      if (actx) paused ? actx.suspend() : actx.resume();
     };
     const fullscreen = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.());
 
@@ -510,7 +575,7 @@
       else if (k === 'arrowright') show(idx + 1);
       else if (k === 'arrowleft') show(idx - 1);
       else if (k === 'f' || k === 'а') fullscreen();
-      else if (k === 'm' || k === 'ь') { muted = !muted; audio.muted = muted; }
+      else if (k === 'm' || k === 'ь') { muted = !muted; if (master) master.gain.value = muted ? 0 : 1; }
     });
     frame.addEventListener('click', togglePause);
     frame.addEventListener('dblclick', fullscreen);
