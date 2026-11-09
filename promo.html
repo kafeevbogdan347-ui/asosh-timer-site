@@ -1,0 +1,521 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>АСОШ Таймер — промо</title>
+  <meta name="description" content="Асошик рассказывает про приложение АСОШ Таймер: ролик для показа на проекторе, например на «Разговоре о важном»." />
+  <meta name="robots" content="noindex" />
+  <link rel="icon" type="image/svg+xml" href="icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;700;800&family=Unbounded:wght@700;800&display=swap" rel="stylesheet" />
+  <style>
+    /* Ролик для проектора: сцена 1920×1080 вписывается в любой экран.
+       Ведущий — Асошик: говорит голосом (promo/voiceNN.mp3), внизу субтитры.
+       Управление: пробел/клик — пауза, ← → — сцены, M — звук, F — на весь экран. */
+    :root {
+      --bg: #060d1f; --text: #eef3ff; --muted: #9fb0d4;
+      --cyan: #22d3ee; --violet: #8b5cf6; --teal: #2dd4bf; --amber: #fbbf24;
+      --head: 'Unbounded', system-ui, sans-serif; --body: 'Manrope', system-ui, sans-serif;
+    }
+    * { box-sizing: border-box; }
+    html, body { margin: 0; height: 100%; background: #000; overflow: hidden; }
+    body { font-family: var(--body); color: var(--text); user-select: none; }
+    #frame { position: fixed; inset: 0; overflow: hidden; }
+    #stage {
+      width: 1920px; height: 1080px; position: absolute; left: 50%; top: 50%; overflow: hidden;
+      transform-origin: center; transform: translate(-50%, -50%);
+      background: radial-gradient(circle at 20% 10%, rgba(34, 211, 238, 0.16), transparent 45%),
+                  radial-gradient(circle at 85% 90%, rgba(139, 92, 246, 0.2), transparent 45%), var(--bg);
+    }
+    .bgdot { position: absolute; border-radius: 50%; filter: blur(70px); opacity: 0.32; animation: drift 14s ease-in-out infinite alternate; }
+    @keyframes drift { to { transform: translate(120px, -80px) scale(1.2); } }
+
+    h1, h2 { font-family: var(--head); margin: 0; line-height: 1.1; }
+    .grad { background: linear-gradient(90deg, var(--cyan), var(--violet)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+
+    /* Сцены занимают верхнюю часть; внизу — Асошик и субтитры */
+    .scene { position: absolute; left: 0; right: 0; top: 0; height: 800px; display: flex; align-items: center; justify-content: center; gap: 110px; opacity: 0; pointer-events: none; transition: opacity 0.7s; }
+    .scene.on { opacity: 1; }
+    .in { opacity: 0; transform: translateY(40px); }
+    .scene.on .in { animation: up 0.8s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: var(--d, 0s); }
+    @keyframes up { to { opacity: 1; transform: none; } }
+    .pop { opacity: 0; transform: scale(0.6); }
+    .scene.on .pop { animation: pop 0.6s cubic-bezier(.3, 1.6, .5, 1) forwards; animation-delay: var(--d, 0s); }
+    @keyframes pop { to { opacity: 1; transform: none; } }
+
+    .phone { width: 336px; height: 712px; border-radius: 58px; padding: 14px; background: linear-gradient(135deg, #c4c7cd, #55585e 60%, #b6b9bf); box-shadow: 0 40px 110px rgba(0, 0, 0, 0.6); flex-shrink: 0; position: relative; }
+    .phone img { width: 100%; height: 100%; object-fit: cover; object-position: top; border-radius: 45px; display: block; }
+    .copy { width: 860px; }
+    .copy h2 { font-size: 84px; margin-bottom: 34px; }
+    .card { background: rgba(255, 255, 255, 0.06); border: 2px solid rgba(148, 180, 255, 0.18); border-radius: 34px; padding: 28px 40px; margin-top: 22px; }
+    .lbl { font-size: 34px; color: var(--muted); font-weight: 700; }
+    .big { font-size: 46px; font-weight: 800; }
+    .big b, .card b { color: var(--cyan); }
+
+    /* Ведущий: Асошик слева внизу */
+    #host { position: absolute; left: 70px; bottom: 50px; width: 230px; height: 230px; transition: transform 0.7s cubic-bezier(.2, .8, .2, 1), opacity 0.5s; }
+    #host.hide { opacity: 0; transform: translateY(80px) scale(0.6); }
+    .asoshik { width: 100%; height: 100%; overflow: visible; filter: drop-shadow(0 24px 50px rgba(45, 212, 191, 0.4)); }
+    .asoshik .body { animation: bob 1.8s ease-in-out infinite alternate; transform-origin: 32px 58px; }
+    @keyframes bob { to { transform: translateY(-2.5px) scaleY(1.02); } }
+    .asoshik .eyes { transform-origin: 32px 32px; animation: blink 3.6s infinite; }
+    @keyframes blink { 0%, 90%, 100% { transform: scaleY(1); } 94% { transform: scaleY(0.1); } }
+    .asoshik .spark { transform-origin: 50px 13px; animation: spark 1.6s ease-in-out infinite; }
+    @keyframes spark { 50% { transform: scale(1.3) rotate(45deg); } }
+
+    #sub {
+      position: absolute; left: 330px; right: 90px; bottom: 70px; min-height: 150px;
+      padding: 28px 44px; border-radius: 40px 40px 40px 10px;
+      background: rgba(15, 29, 61, 0.88); border: 2px solid rgba(45, 212, 191, 0.4);
+      font-size: 42px; font-weight: 700; line-height: 1.35; display: flex; flex-wrap: wrap; align-content: center; column-gap: 0.28em;
+      transition: opacity 0.4s;
+    }
+    #sub .w { opacity: 0.28; transition: opacity 0.15s; }
+    #sub .w.said { opacity: 1; }
+    #sub.empty { opacity: 0; }
+
+    /* 1 и 9: большой Асошик */
+    .hero { width: 470px; height: 470px; }
+    .s1 h1 { font-size: 120px; }
+    .s1 p { font-size: 50px; color: var(--muted); font-weight: 700; margin: 26px 0 0; }
+
+    /* 2. Вопросы */
+    .bubbles { position: relative; width: 1500px; height: 640px; }
+    .q { position: absolute; padding: 24px 36px; border-radius: 40px; font-size: 44px; font-weight: 800; background: #1b2a4d; border: 2px solid rgba(148, 180, 255, 0.2); white-space: nowrap; }
+    .q.r { background: var(--teal); color: #04121a; }
+
+    /* 3. Логотип */
+    .logo { display: flex; flex-direction: column; align-items: center; gap: 30px; text-align: center; }
+    .logo img { width: 230px; height: 230px; border-radius: 54px; box-shadow: 0 30px 90px rgba(34, 211, 238, 0.35); }
+    .logo h1 { font-size: 140px; }
+    .chips { display: flex; gap: 20px; flex-wrap: wrap; justify-content: center; }
+    .chip { font-size: 38px; font-weight: 800; padding: 14px 30px; border-radius: 999px; background: rgba(45, 212, 191, 0.14); border: 2px solid rgba(45, 212, 191, 0.45); color: var(--teal); }
+
+    .timer { font-family: var(--head); font-size: 130px; color: var(--cyan); letter-spacing: 4px; }
+    .classes { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; margin-top: 30px; }
+    .classes span { font-family: var(--head); font-size: 36px; text-align: center; padding: 16px 0; border-radius: 22px; background: rgba(255, 255, 255, 0.06); border: 2px solid rgba(148, 180, 255, 0.16); }
+    .classes span.me { background: var(--teal); color: #04121a; border-color: var(--teal); }
+
+    .toast { position: absolute; left: -40px; right: -40px; top: 40px; padding: 20px 24px; border-radius: 26px; background: rgba(255, 255, 255, 0.96); color: #0f172a; font-size: 24px; font-weight: 800; box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45); opacity: 0; transform: translateY(-60px); }
+    .toast small { display: block; font-size: 20px; color: #475569; font-weight: 700; margin-top: 4px; }
+    .scene.on .toast { animation: toast 0.7s cubic-bezier(.2, .8, .2, 1) forwards; animation-delay: var(--d, 0s); }
+    @keyframes toast { to { opacity: 1; transform: none; } }
+
+    .themes { display: flex; gap: 36px; align-items: center; }
+    .themes .phone:nth-child(2) { transform: translateY(-30px) scale(1.06); }
+
+    .priv { display: grid; grid-template-columns: repeat(3, 440px); gap: 30px; }
+    .priv div { padding: 40px; border-radius: 40px; background: rgba(255, 255, 255, 0.06); border: 2px solid rgba(148, 180, 255, 0.16); text-align: center; }
+    .priv i { font-style: normal; font-size: 96px; display: block; }
+    .priv b { display: block; font-family: var(--head); font-size: 38px; margin-top: 18px; }
+
+    .qr { width: 520px; height: 520px; padding: 30px; background: #fff; border-radius: 46px; box-shadow: 0 30px 100px rgba(34, 211, 238, 0.35); animation: glow 2s ease-in-out infinite alternate; }
+    @keyframes glow { to { box-shadow: 0 30px 140px rgba(139, 92, 246, 0.55); } }
+    .qr img { width: 100%; height: 100%; display: block; }
+    .cta h2 { font-size: 104px; margin-bottom: 30px; }
+    .cta ul { list-style: none; padding: 0; margin: 0 0 30px; font-size: 46px; font-weight: 800; }
+    .cta li { margin: 12px 0; }
+    .url { font-size: 34px; color: var(--muted); font-weight: 700; }
+
+    #bar { position: absolute; left: 0; bottom: 0; height: 8px; background: linear-gradient(90deg, var(--cyan), var(--violet)); width: 0; }
+
+    /* Экран старта: звук в браузере включается только после нажатия */
+    #start { position: fixed; inset: 0; z-index: 5; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 22px; background: radial-gradient(circle at 50% 40%, #13254d, #050b19 70%); text-align: center; padding: 20px; cursor: pointer; }
+    #start h1 { font-size: clamp(24px, 4.2vw, 64px); }
+    #start button { font: 800 clamp(18px, 2.2vw, 30px) var(--body); padding: 0.7em 1.6em; border-radius: 999px; border: 0; background: var(--teal); color: #04121a; cursor: pointer; box-shadow: 0 10px 40px rgba(45, 212, 191, 0.4); }
+    #start .mute { background: none; color: var(--muted); box-shadow: none; font-size: clamp(14px, 1.5vw, 20px); padding: 0.3em; text-decoration: underline; }
+    #start p { margin: 0; color: var(--muted); font-size: clamp(13px, 1.4vw, 18px); }
+    #hint { position: fixed; bottom: 12px; right: 16px; font: 600 13px var(--body); color: rgba(255, 255, 255, 0.5); pointer-events: none; opacity: 0; }
+    body.paused #hint { opacity: 1; }
+    #rotate { display: none; position: fixed; top: 20px; left: 0; right: 0; text-align: center; font: 700 15px var(--body); color: rgba(255, 255, 255, 0.6); pointer-events: none; }
+    @media (orientation: portrait) and (max-width: 700px) { #rotate { display: block; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: 0.01s !important; animation-iteration-count: 1 !important; } }
+  </style>
+</head>
+<body>
+  <!-- Шаблон маскота: копируется во все места с классом asoshik-slot -->
+  <template id="asoshik-tpl">
+    <svg class="asoshik" viewBox="0 0 64 64" aria-hidden="true">
+      <defs>
+        <linearGradient x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#a78bfa" /><stop offset=".5" stop-color="#2dd4bf" /><stop offset="1" stop-color="#38bdf8" />
+        </linearGradient>
+      </defs>
+      <g class="body">
+        <path class="blob" d="M32 6 C46 6 58 16 58 32 C58 47 47 58 32 58 C17 58 6 48 6 32 C6 17 18 6 32 6Z" />
+        <path d="M18 16 C24 10 34 9 40 12" stroke="#fff" stroke-opacity=".5" stroke-width="3" fill="none" stroke-linecap="round" />
+        <g class="eyes"><rect x="21" y="27" width="6" height="10" rx="3" fill="#fff" /><rect x="37" y="27" width="6" height="10" rx="3" fill="#fff" /></g>
+        <path class="smile" d="M27 43 q5 4 10 0" stroke="#fff" stroke-width="2.6" fill="none" stroke-linecap="round" />
+        <ellipse class="mouth" cx="32" cy="44.5" rx="4.6" ry="0.6" fill="#0d1b3a" stroke="#fff" stroke-width="1.6" opacity="0" />
+        <path class="spark" d="M50 8 l1.6 3.6 3.6 1.6 -3.6 1.6 -1.6 3.6 -1.6 -3.6 -3.6 -1.6 3.6 -1.6Z" fill="#fde68a" />
+      </g>
+    </svg>
+  </template>
+
+  <div id="frame">
+  <div id="stage">
+    <div class="bgdot" style="width:600px;height:600px;left:-100px;top:-120px;background:#22d3ee"></div>
+    <div class="bgdot" style="width:700px;height:700px;right:-200px;bottom:-200px;background:#8b5cf6;animation-delay:-6s"></div>
+
+    <!-- 1. Привет -->
+    <section class="scene s1" data-host="hide">
+      <div class="hero pop asoshik-slot"></div>
+      <div>
+        <h1 class="in" style="--d:.4s">Привет!<br />Я <span class="grad">Асошик</span> 👋</h1>
+        <p class="in" style="--d:.9s">маскот приложения АСОШ Таймер</p>
+      </div>
+    </section>
+
+    <!-- 2. Знакомые вопросы -->
+    <section class="scene">
+      <div class="bubbles">
+        <div class="q pop" style="left:80px;top:40px;--d:.6s">Какой следующий урок? 🤔</div>
+        <div class="q r pop" style="right:60px;top:170px;--d:1.8s">В каком кабинете химия??</div>
+        <div class="q pop" style="left:200px;top:320px;--d:3s">Что задали по русскому?</div>
+        <div class="q r pop" style="right:160px;top:460px;--d:4.6s">Опять спрашивать в чате… 😩</div>
+      </div>
+    </section>
+
+    <!-- 3. Логотип -->
+    <section class="scene">
+      <div class="logo">
+        <img class="pop" src="icon.svg" alt="" />
+        <h1 class="in" style="--d:.4s">АСОШ <span class="grad">Таймер</span></h1>
+        <div class="chips in" style="--d:1.4s"><span class="chip">📱 Вся школа в телефоне</span><span class="chip">🆓 Бесплатно</span><span class="chip">🚫 Без рекламы</span></div>
+      </div>
+    </section>
+
+    <!-- 4. Таймер и «Дальше» -->
+    <section class="scene">
+      <div class="phone pop"><img src="promo/app-main.jpg" alt="" /></div>
+      <div class="copy">
+        <h2 class="in" style="--d:.3s">Всегда знаешь,<br /><span class="grad">что дальше</span></h2>
+        <div class="card in" style="--d:1s"><div class="lbl">До конца урока осталось</div><div class="timer" data-countdown>24:54</div></div>
+        <div class="card in" style="--d:4.5s"><div class="lbl">👉 Дальше · 09:40</div><div class="big">Русский язык · <b>каб. 106 · 1 этаж</b></div></div>
+      </div>
+    </section>
+
+    <!-- 5. Расписание -->
+    <section class="scene">
+      <div class="phone pop"><img src="promo/app-lessons.jpg" alt="" /></div>
+      <div class="copy">
+        <h2 class="in" style="--d:.3s">Расписание<br /><span class="grad">всех классов</span></h2>
+        <div class="lbl in" style="--d:.8s">с кабинетами — уже внутри</div>
+        <div class="classes">
+          <span class="pop" style="--d:1.2s">5А</span><span class="pop me" style="--d:1.3s">5Б</span><span class="pop" style="--d:1.4s">5В</span><span class="pop" style="--d:1.5s">6А</span><span class="pop" style="--d:1.6s">6Б</span><span class="pop" style="--d:1.7s">6В</span>
+          <span class="pop" style="--d:1.8s">7А</span><span class="pop" style="--d:1.9s">7Б</span><span class="pop" style="--d:2s">8А</span><span class="pop" style="--d:2.1s">8Б</span><span class="pop" style="--d:2.2s">9А</span><span class="pop" style="--d:2.3s">9Б</span>
+          <span class="pop" style="--d:2.4s">9В</span><span class="pop" style="--d:2.5s">9Г</span><span class="pop" style="--d:2.6s">10А</span><span class="pop" style="--d:2.7s">10Б</span><span class="pop" style="--d:2.8s">11А</span><span class="pop" style="--d:2.9s">11Б</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6. Домашка и замены -->
+    <section class="scene">
+      <div class="phone pop"><img src="promo/app-homework.jpg" alt="" /></div>
+      <div class="copy">
+        <h2 class="in" style="--d:.3s">Домашка<br /><span class="grad">и замены</span></h2>
+        <div class="card in" style="--d:1.2s"><div class="big">📘 Себе или <b>всему классу</b></div></div>
+        <div class="card in" style="--d:4.8s"><div class="lbl">🔄 Замена · завтра</div><div class="big">3-й урок — <b>Физкультура</b></div><div class="lbl" style="margin-top:8px">✅ Узнал весь класс</div></div>
+      </div>
+    </section>
+
+    <!-- 7. Сокращённые уроки и напоминания -->
+    <section class="scene">
+      <div class="phone pop">
+        <img src="promo/app-main-short.jpg" alt="" />
+        <div class="toast" style="--d:4.5s">🔔 Через 5 минут: Русский язык<small>2 урок в 09:30 · каб. 106</small></div>
+      </div>
+      <div class="copy">
+        <h2 class="in" style="--d:.3s">Сокращённые<br /><span class="grad">уроки</span></h2>
+        <div class="card in" style="--d:1.3s"><div class="big">⏱ Одна кнопка — <b>таймер перестроится</b></div></div>
+        <div class="card in" style="--d:4.5s"><div class="big">🔔 Напоминание <b>за 5 минут</b></div></div>
+      </div>
+    </section>
+
+    <!-- 8. Кабинеты и чат -->
+    <section class="scene">
+      <div class="phone pop"><img src="promo/app-map.jpg" alt="" /></div>
+      <div class="copy">
+        <h2 class="in" style="--d:.3s">Найди<br /><span class="grad">любой кабинет</span></h2>
+        <div class="card in" style="--d:1.2s"><div class="big">📍 332 → <b>3 этаж</b> и твои уроки там</div></div>
+        <div class="card in" style="--d:4.6s"><div class="big">💬 Чат класса — <b>по коду</b></div></div>
+      </div>
+    </section>
+
+    <!-- 9. Асошик в приложении -->
+    <section class="scene" data-host="hide" style="gap:70px">
+      <div class="hero pop asoshik-slot" style="width:400px;height:400px"></div>
+      <div class="phone pop" style="--d:.5s"><img src="promo/app-assistant.jpg" alt="" /></div>
+      <div style="width:600px">
+        <h2 class="in" style="--d:.8s;font-size:80px">А ещё<br />тут живу <span class="grad">я!</span></h2>
+        <div class="card in" style="--d:3s"><div class="big">🧠 Объясню тему</div></div>
+        <div class="card in" style="--d:7.5s"><div class="big">🙅 Домашку <b>не сделаю</b> 😉</div></div>
+      </div>
+    </section>
+
+    <!-- 10. Темы -->
+    <section class="scene">
+      <div class="copy" style="width:520px"><h2 class="in">Сделай<br /><span class="grad">под себя</span></h2></div>
+      <div class="themes">
+        <div class="phone pop" style="--d:.4s"><img src="img/theme-space.jpg" alt="" /></div>
+        <div class="phone pop" style="--d:.9s"><img src="img/theme-notebook.jpg" alt="" /></div>
+        <div class="phone pop" style="--d:1.4s"><img src="img/theme-blossom.jpg" alt="" /></div>
+      </div>
+    </section>
+
+    <!-- 11. Приватность -->
+    <section class="scene" style="flex-direction:column;gap:60px">
+      <h2 class="in" style="font-size:90px">Твоё — <span class="grad">только твоё</span></h2>
+      <div class="priv">
+        <div class="pop" style="--d:.6s"><i>📱</i><b>Оценки и имя — на телефоне</b></div>
+        <div class="pop" style="--d:1.6s"><i>🚫</i><b>Никакой рекламы</b></div>
+        <div class="pop" style="--d:2.6s"><i>🆓</i><b>Бесплатно</b></div>
+      </div>
+    </section>
+
+    <!-- 12. Скачать -->
+    <section class="scene cta">
+      <div class="qr pop"><img src="img/qr-download.svg" alt="QR-код на сайт приложения" /></div>
+      <div>
+        <h2 class="in" style="--d:.3s">Наведи камеру<br /><span class="grad">и установи</span></h2>
+        <ul>
+          <li class="in" style="--d:1s">✅ Android</li>
+          <li class="in" style="--d:1.3s">✅ iPhone</li>
+          <li class="in" style="--d:1.6s">✅ Компьютер</li>
+        </ul>
+        <div class="url in" style="--d:2s">kafeevbogdan347-ui.github.io/asosh-timer-site</div>
+      </div>
+    </section>
+
+    <div id="host" class="asoshik-slot"></div>
+    <div id="sub" class="empty"></div>
+    <div id="bar"></div>
+  </div>
+  </div>
+
+  <div id="start">
+    <div class="asoshik-slot" style="width:min(38vw,38vh);height:min(38vw,38vh)"></div>
+    <h1>Асошик расскажет про <span class="grad">АСОШ Таймер</span></h1>
+    <button type="button" id="go">▶ Смотреть со звуком</button>
+    <button type="button" class="mute" id="go-mute">без звука, с субтитрами</button>
+    <p>Пробел — пауза · ← → — сцены · M — звук · F — на весь экран</p>
+  </div>
+  <div id="hint">Пауза · пробел — продолжить</div>
+  <div id="rotate">📱 Поверни телефон — так крупнее</div>
+
+  <script>
+    // Реплики Асошика по сценам. dur — длина озвучки в секундах
+    const LINES = /*LINES*/[
+ {
+  "file": "promo/voice01.mp3",
+  "dur": 7.13,
+  "text": "Привет! Я Асошик, маскот приложения АСОШ Таймер. Сейчас за пару минут расскажу, как оно упростит тебе школьную жизнь!"
+ },
+ {
+  "file": "promo/voice02.mp3",
+  "dur": 8.38,
+  "text": "Знакомо? Какой следующий урок? В каком кабинете химия? Что задали по русскому? Каждый день одни и те же вопросы в чате класса."
+ },
+ {
+  "file": "promo/voice03.mp3",
+  "dur": 6.05,
+  "text": "Поэтому появился АСОШ Таймер. Вся школа в одном телефоне. Бесплатно и без рекламы!"
+ },
+ {
+  "file": "promo/voice04.mp3",
+  "dur": 8.47,
+  "text": "Открываешь приложение и сразу видишь, сколько осталось до звонка. А ниже подсказка, куда идти дальше: какой урок, какой кабинет и даже на каком этаже."
+ },
+ {
+  "file": "promo/voice05.mp3",
+  "dur": 6.98,
+  "text": "Расписание уже загружено для всех классов, с пятого по одиннадцатый, вместе с кабинетами. Выбрал свой класс, и готово!"
+ },
+ {
+  "file": "promo/voice06.mp3",
+  "dur": 8.4,
+  "text": "Домашку можно записать себе или отправить всему классу. А если урок заменили или отменили, достаточно одному отметить, и узнают все."
+ },
+ {
+  "file": "promo/voice07.mp3",
+  "dur": 7.54,
+  "text": "Сокращённые уроки? Включаешь одной кнопкой, и таймер сам перестроится. А за пять минут до урока придёт напоминание."
+ },
+ {
+  "file": "promo/voice08.mp3",
+  "dur": 9.48,
+  "text": "Не можешь найти кабинет? Напиши номер, и я покажу этаж и твои уроки там. А ещё есть чат класса, вход по коду от классного руководителя."
+ },
+ {
+  "file": "promo/voice09.mp3",
+  "dur": 11.3,
+  "text": "А теперь самое интересное. В приложении живу я! Спроси, где следующий урок, или попроси объяснить сложную тему. Помогу разобраться. Но домашку за тебя делать не буду!"
+ },
+ {
+  "file": "promo/voice10.mp3",
+  "dur": 4.73,
+  "text": "Оформление под себя: космос, тетрадь, сакура и ещё десятки тем."
+ },
+ {
+  "file": "promo/voice11.mp3",
+  "dur": 5.18,
+  "text": "Оценки и имя хранятся только на твоём телефоне. Никакой рекламы."
+ },
+ {
+  "file": "promo/voice12.mp3",
+  "dur": 8.83,
+  "text": "Наведи камеру на этот QR-код и установи АСОШ Таймер. На Андроид, Айфон или компьютер. До встречи в приложении! Пока!"
+ }
+];
+
+    const stage = document.getElementById('stage');
+    const frame = document.getElementById('frame');
+    const scenes = [...document.querySelectorAll('.scene')];
+    const host = document.getElementById('host');
+    const sub = document.getElementById('sub');
+    const bar = document.getElementById('bar');
+
+    // Маскот во все слоты, у каждого свой градиент
+    const tpl = document.getElementById('asoshik-tpl');
+    document.querySelectorAll('.asoshik-slot').forEach((slot, i) => {
+      const svg = tpl.content.firstElementChild.cloneNode(true);
+      svg.querySelector('linearGradient').id = 'ag' + i;
+      svg.querySelector('.blob').setAttribute('fill', `url(#ag${i})`);
+      slot.appendChild(svg);
+    });
+    const mouths = [...document.querySelectorAll('.mouth')];
+    const smiles = [...document.querySelectorAll('.smile')];
+
+    const fit = () => {
+      stage.style.transform = `translate(-50%, -50%) scale(${Math.min(frame.clientWidth / 1920, frame.clientHeight / 1080)})`;
+    };
+    addEventListener('resize', fit);
+    addEventListener('orientationchange', () => setTimeout(fit, 300));
+    window.visualViewport?.addEventListener('resize', fit);
+    fit();
+
+    // Звук; громкость голоса двигает рот Асошика
+    const audio = new Audio();
+    audio.preload = 'auto';
+    let analyser = null, buf = null, withSound = true, muted = false;
+    const initAudio = () => {
+      try {
+        const actx = new (window.AudioContext || window.webkitAudioContext)();
+        const src = actx.createMediaElementSource(audio);
+        analyser = actx.createAnalyser();
+        analyser.fftSize = 1024;
+        buf = new Uint8Array(analyser.fftSize);
+        src.connect(analyser);
+        analyser.connect(actx.destination);
+        actx.resume();
+      } catch (e) { analyser = null; }
+    };
+    // Заранее подгружаем озвучку, чтобы не было пауз
+    LINES.forEach((l) => { const a = new Audio(); a.preload = 'auto'; a.src = l.file; });
+
+    const PRE = 0.5; // секунд до начала реплики
+    const PAD = 1.3; // секунд после реплики
+    const sceneLen = (i) => (LINES[i]?.dur || 6) + PRE + PAD;
+    const total = scenes.reduce((s, _, i) => s + sceneLen(i), 0);
+
+    let idx = 0, elapsed = 0, voiceStarted = false, paused = false, started = false, lastNow = performance.now();
+
+    const setSub = (text) => {
+      sub.innerHTML = text ? text.split(' ').map((w) => `<span class="w">${w}</span>`).join('') : '';
+      sub.classList.toggle('empty', !text);
+    };
+
+    const show = (i) => {
+      idx = (i + scenes.length) % scenes.length;
+      elapsed = 0; voiceStarted = false;
+      scenes.forEach((s, j) => {
+        s.classList.remove('on');
+        if (j === idx) { void s.offsetWidth; s.classList.add('on'); }
+      });
+      host.classList.toggle('hide', scenes[idx].dataset.host === 'hide');
+      audio.pause();
+      setSub(LINES[idx]?.text || '');
+    };
+
+    const tick = (now) => {
+      const dt = Math.min(0.1, (now - lastNow) / 1000); lastNow = now;
+      if (started && !paused) {
+        elapsed += dt;
+        const line = LINES[idx];
+        if (!voiceStarted && elapsed >= PRE) {
+          voiceStarted = true;
+          if (withSound && line) { audio.src = line.file; audio.muted = muted; audio.play().catch(() => {}); }
+        }
+        // Сколько реплики уже сказано: по звуку, а без звука — по времени
+        const t = withSound && voiceStarted && audio.currentTime > 0 ? audio.currentTime : Math.max(0, elapsed - PRE);
+        const progress = line ? Math.min(1, t / line.dur) : 1;
+        const words = sub.querySelectorAll('.w');
+        const said = Math.ceil(progress * words.length);
+        words.forEach((w, k) => w.classList.toggle('said', k < said));
+
+        let level = 0;
+        const talking = voiceStarted && progress < 1;
+        if (talking && analyser && withSound && !audio.paused) {
+          analyser.getByteTimeDomainData(buf);
+          let sum = 0;
+          for (let k = 0; k < buf.length; k++) { const v = (buf[k] - 128) / 128; sum += v * v; }
+          level = Math.min(1, Math.sqrt(sum / buf.length) * 5);
+        } else if (talking) {
+          level = 0.25 + 0.45 * Math.abs(Math.sin(now / 85)) * (0.6 + 0.4 * Math.sin(now / 330));
+        }
+        const open = level > 0.07;
+        mouths.forEach((m) => { m.setAttribute('ry', (0.8 + level * 4).toFixed(2)); m.setAttribute('opacity', open ? 1 : 0); });
+        smiles.forEach((s) => s.setAttribute('opacity', open ? 0 : 1));
+
+        const cd = scenes[idx].querySelector('[data-countdown]');
+        if (cd) { const s = Math.max(0, 24 * 60 + 54 - Math.floor(elapsed)); cd.textContent = `${String(Math.floor(s / 60)).padStart(2, '0')}:${String(s % 60).padStart(2, '0')}`; }
+
+        // Сцена закончилась: прошло её время и голос договорил
+        const voiceDone = !withSound || !line || audio.ended || audio.error;
+        if (elapsed >= sceneLen(idx) && voiceDone) show(idx + 1);
+
+        let before = 0; for (let k = 0; k < idx; k++) before += sceneLen(k);
+        bar.style.width = `${Math.min(100, ((before + elapsed) / total) * 100)}%`;
+      }
+      requestAnimationFrame(tick);
+    };
+
+    const start = (sound) => {
+      if (started) return;
+      withSound = sound;
+      if (sound) initAudio();
+      document.getElementById('start').remove();
+      started = true;
+      show(0);
+    };
+    document.getElementById('go').addEventListener('click', (e) => { e.stopPropagation(); start(true); });
+    document.getElementById('go-mute').addEventListener('click', (e) => { e.stopPropagation(); start(false); });
+    document.getElementById('start').addEventListener('click', () => start(true));
+
+    const togglePause = () => {
+      if (!started) return;
+      paused = !paused;
+      document.body.classList.toggle('paused', paused);
+      document.querySelectorAll('#stage *').forEach((el) => (el.style.animationPlayState = paused ? 'paused' : ''));
+      if (withSound && voiceStarted) { if (paused) audio.pause(); else if (!audio.ended) audio.play().catch(() => {}); }
+    };
+    const fullscreen = () => (document.fullscreenElement ? document.exitFullscreen() : document.documentElement.requestFullscreen?.());
+
+    addEventListener('keydown', (e) => {
+      const k = e.key.toLowerCase();
+      if (!started) { if (k === ' ' || k === 'enter') { e.preventDefault(); start(true); } return; }
+      if (k === ' ') { e.preventDefault(); togglePause(); }
+      else if (k === 'arrowright') show(idx + 1);
+      else if (k === 'arrowleft') show(idx - 1);
+      else if (k === 'f' || k === 'а') fullscreen();
+      else if (k === 'm' || k === 'ь') { muted = !muted; audio.muted = muted; }
+    });
+    frame.addEventListener('click', togglePause);
+    frame.addEventListener('dblclick', fullscreen);
+
+    requestAnimationFrame(tick);
+  </script>
+</body>
+</html>
