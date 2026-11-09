@@ -405,9 +405,10 @@
     audio.preload = 'auto';
     let analyser = null, buf = null, withSound = true, muted = false;
     let actx = null, master = null, musicGain = null;
-    // Фоновая музыка (promo/music.mp3, 16 тактов) крутится без шва через AudioBuffer;
+    // Фоновая музыка (promo/music.m4a, трек 2:43 из Suno) играет целиком, длиннее ролика;
     // пока Асошик говорит, она тише. Всё идёт через один общий регулятор громкости
-    const MUSIC_LOUD = 0.34, MUSIC_UNDER_VOICE = 0.1, LOOP_END = 36.923;
+    // Трек громче прежнего примерно в 1,5 раза, поэтому громкость снижена в той же пропорции
+    const MUSIC_LOUD = 0.23, MUSIC_UNDER_VOICE = 0.07, LOOP_END = Infinity;
     const initAudio = () => {
       try {
         actx = new (window.AudioContext || window.webkitAudioContext)();
@@ -422,7 +423,7 @@
         musicGain = actx.createGain();
         musicGain.gain.value = 0;
         musicGain.connect(master);
-        fetch('promo/music.mp3')
+        fetch('promo/music.m4a')
           .then((r) => r.arrayBuffer())
           .then((data) => new Promise((ok, fail) => actx.decodeAudioData(data, ok, fail)))
           .then((buffer) => {
