@@ -349,11 +349,18 @@
               <h3>Компьютер</h3>
             </div>
             <ol>
-              <li>Открой приложение в <b>Chrome</b>, <b>Edge</b> или <b>Яндекс Браузере</b>.</li>
-              <li>Нажми значок установки в конце адресной строки.</li>
-              <li>Подтверди <b>«Установить»</b> — появится ярлык на рабочем столе.</li>
+              <li>Выбери свою систему и скачай файл.</li>
+              <li>Открой его и установи — появится ярлык.</li>
+              <li>Или открой приложение в <b>Chrome</b>/<b>Edge</b> и нажми значок установки в адресной строке.</li>
             </ol>
-            <a class="btn btn-block btn-ghost" data-link="app" data-soon="Ссылка скоро" href="#">Открыть приложение</a>
+            <div class="desktop-dl">
+              <a class="btn btn-block" data-link="win" data-soon="Windows — скоро" href="#">Windows · .exe</a>
+              <a class="btn btn-block btn-ghost" data-link="mac" data-soon="macOS — скоро" href="#">macOS (Apple M1+) · .dmg</a>
+              <a class="btn btn-block btn-ghost" data-link="macIntel" data-soon="macOS Intel — скоро" href="#">macOS (Intel) · .dmg</a>
+              <a class="btn btn-block btn-ghost" data-link="linux" data-soon="Linux — скоро" href="#">Linux · .AppImage</a>
+              <a class="btn btn-block btn-ghost" data-link="linuxDeb" data-soon="Linux deb — скоро" href="#">Linux · .deb</a>
+              <a class="btn btn-block btn-ghost" data-link="app" data-soon="Ссылка скоро" href="#">Открыть в браузере</a>
+            </div>
           </article>
         </div>
 
@@ -452,6 +459,12 @@
     window.LINKS = {
       app: 'https://kafeevbogdan347-ui.github.io/asosh-timer/',
       apk: 'https://github.com/kafeevbogdan347-ui/asosh-timer/releases/download/apk-latest/asosh-timer.apk',
+      // Компьютер: файлы собирает репозиторий приложения (.github/workflows/desktop.yml)
+      win: 'https://github.com/kafeevbogdan347-ui/asosh-timer/releases/download/desktop-latest/asosh-timer-win-x64.exe',
+      mac: 'https://github.com/kafeevbogdan347-ui/asosh-timer/releases/download/desktop-latest/asosh-timer-mac-arm64.dmg',
+      macIntel: 'https://github.com/kafeevbogdan347-ui/asosh-timer/releases/download/desktop-latest/asosh-timer-mac-x64.dmg',
+      linux: 'https://github.com/kafeevbogdan347-ui/asosh-timer/releases/download/desktop-latest/asosh-timer-linux-x86_64.AppImage',
+      linuxDeb: 'https://github.com/kafeevbogdan347-ui/asosh-timer/releases/download/desktop-latest/asosh-timer-linux-amd64.deb',
     };
   </script>
   <script src="main.js"></script>
