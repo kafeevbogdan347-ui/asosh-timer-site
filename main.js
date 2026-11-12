@@ -179,3 +179,95 @@ if (els.clock && els.lessons) {
   tick();
   setInterval(tick, 1000);
 }
+
+
+// Глобальная заглушка сайта (управляется из Панели разработчика АСОШ Таймера)
+(function initSiteMaintenanceStub() {
+  const CFG_KEY = "asosh_site_fb_cfg_v1";
+  const TOKEN_KEY = "asosh_site_fb_tok_v1";
+  let stubEl = null;
+
+  function renderStub(closed) {
+    if (closed) {
+      if (stubEl) return;
+      stubEl = document.createElement("div");
+      stubEl.id = "asosh-maintenance-stub";
+      stubEl.style.cssText = "position:fixed;inset:0;z-index:999999;background:#020617;color:#fff;display:flex;align-items:center;justify-content:center;padding:24px;text-align:center;font-family:system-ui,-apple-system,sans-serif;";
+      stubEl.innerHTML = `
+        <div style="max-width:440px;width:100%;background:rgba(15,23,42,0.95);border:1px solid rgba(239,68,68,0.4);border-radius:24px;padding:32px 24px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.7);">
+          <div style="width:64px;height:64px;margin:0 auto 20px;border-radius:16px;background:rgba(239,68,68,0.15);border:1px solid rgba(248,113,113,0.4);display:flex;align-items:center;justify-content:center;font-size:30px;">🛠️</div>
+          <h1 style="margin:0 0 12px;font-size:22px;font-weight:900;line-height:1.35;color:#fff;">АСОШ Таймер временно недоступен. Попробуйте позже.</h1>
+          <p style="margin:0;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.6);">На серверах проводятся технические работы. Скоро всё снова заработает.</p>
+        </div>
+      `;
+      document.body.appendChild(stubEl);
+      document.body.style.overflow = "hidden";
+    } else if (stubEl) {
+      stubEl.remove();
+      stubEl = null;
+      document.body.style.overflow = "";
+    }
+  }
+
+  async function getFbConfig() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(CFG_KEY) || "null");
+      if (cached && cached.apiKey && cached.dbUrl) return cached;
+    } catch {}
+    try {
+      const html = await fetch("https://kafeevbogdan347-ui.github.io/asosh-timer/", { cache: "no-store" }).then(r => r.text());
+      const m = html.match(/src="(\/asosh-timer\/assets\/[^"]+\.js)"/);
+      if (!m) return null;
+      const js = await fetch("https://kafeevbogdan347-ui.github.io" + m[1]).then(r => r.text());
+      const apiKeyMatch = js.match(/AIzaSy[A-Za-z0-9_-]{33}/);
+      const dbMatch = js.match(/https:\/\/[a-z0-9-]+-default-rtdb\.[a-z0-9.-]+\.(?:firebaseio\.com|firebasedatabase\.app)/i);
+      if (apiKeyMatch && dbMatch) {
+        const cfg = { apiKey: apiKeyMatch[0], dbUrl: dbMatch[0] };
+        localStorage.setItem(CFG_KEY, JSON.stringify(cfg));
+        return cfg;
+      }
+    } catch {}
+    return null;
+  }
+
+  async function getAuthToken(apiKey) {
+    try {
+      const cached = JSON.parse(localStorage.getItem(TOKEN_KEY) || "null");
+      if (cached && cached.token && Date.now() < cached.exp) return cached.token;
+    } catch {}
+    try {
+      const res = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + apiKey, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ returnSecureToken: true })
+      }).then(r => r.json());
+      if (res && res.idToken) {
+        localStorage.setItem(TOKEN_KEY, JSON.stringify({ token: res.idToken, exp: Date.now() + 45 * 60 * 1000 }));
+        return res.idToken;
+      }
+    } catch {}
+    return null;
+  }
+
+  async function checkSiteClosed() {
+    try {
+      const cfg = await getFbConfig();
+      if (!cfg) return;
+      let token = await getAuthToken(cfg.apiKey);
+      if (!token) return;
+      let res = await fetch(cfg.dbUrl + "/asosh_transfer/SYSTEM_MAINTENANCE.json?auth=" + token, { cache: "no-store" });
+      if (res.status === 401) {
+        localStorage.removeItem(TOKEN_KEY);
+        token = await getAuthToken(cfg.apiKey);
+        if (!token) return;
+        res = await fetch(cfg.dbUrl + "/asosh_transfer/SYSTEM_MAINTENANCE.json?auth=" + token, { cache: "no-store" });
+      }
+      if (!res.ok) return;
+      const data = await res.json();
+      renderStub(Boolean(data && data.payload === "closed"));
+    } catch {}
+  }
+
+  checkSiteClosed();
+  setInterval(checkSiteClosed, 4000);
+})();
