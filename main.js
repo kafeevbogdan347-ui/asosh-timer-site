@@ -197,7 +197,7 @@ if (els.clock && els.lessons) {
         <div style="max-width:440px;width:100%;background:rgba(15,23,42,0.95);border:1px solid rgba(239,68,68,0.4);border-radius:24px;padding:32px 24px;box-shadow:0 25px 50px -12px rgba(0,0,0,0.7);">
           <div style="width:64px;height:64px;margin:0 auto 20px;border-radius:16px;background:rgba(239,68,68,0.15);border:1px solid rgba(248,113,113,0.4);display:flex;align-items:center;justify-content:center;font-size:30px;">🛠️</div>
           <h1 style="margin:0 0 12px;font-size:22px;font-weight:900;line-height:1.35;color:#fff;">АСОШ Таймер временно недоступен. Попробуйте позже.</h1>
-          <p style="margin:0;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.6);">На серверах проводятся технические работы. Скоро всё снова заработает.</p>
+          <p style="margin:0 0 20px;font-size:14px;line-height:1.5;color:rgba(255,255,255,0.65);">На серверах проводятся технические работы. Пока сервера стоят, вы можете пользоваться оффлайн-расписанием и играми.</p><a href="https://kafeevbogdan347-ui.github.io/asosh-timer/" style="display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 20px;border-radius:14px;background:rgba(6,182,212,0.2);border:1px solid rgba(34,211,238,0.45);color:#a5f3fc;font-weight:800;font-size:13px;text-decoration:none;">📅 Открыть расписание и игры (оффлайн)</a>
         </div>
       `;
       document.body.appendChild(stubEl);
