@@ -642,3 +642,6 @@ details a { color: var(--cyan); }
   * { transition: none !important; animation: none !important; }
   .js .reveal { opacity: 1; transform: none; }
 }
+
+/* Кнопки скачивания для компьютера */
+.desktop-dl { display: grid; gap: 8px; }
