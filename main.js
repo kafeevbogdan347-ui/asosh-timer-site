@@ -78,7 +78,7 @@ function argayashNow() {
   }).formatToParts(new Date());
   const get = (type) => parts.find((p) => p.type === type)?.value;
   return {
-    weekday: get('weekday'),
+    weekday: (get('weekday') || '').toLowerCase().replace(/\./g, ''),
     date: `${get('year')}-${get('month')}-${get('day')}`,
     sec: Number(get('hour')) * 3600 + Number(get('minute')) * 60 + Number(get('second')),
   };
@@ -175,5 +175,7 @@ function tick() {
   }
 }
 
-tick();
-setInterval(tick, 1000);
+if (els.clock && els.lessons) {
+  tick();
+  setInterval(tick, 1000);
+}
