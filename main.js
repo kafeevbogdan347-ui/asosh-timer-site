@@ -230,44 +230,20 @@ if (els.clock && els.lessons) {
     return null;
   }
 
-  async function getAuthToken(apiKey) {
-    try {
-      const cached = JSON.parse(localStorage.getItem(TOKEN_KEY) || "null");
-      if (cached && cached.token && Date.now() < cached.exp) return cached.token;
-    } catch {}
-    try {
-      const res = await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" + apiKey, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ returnSecureToken: true })
-      }).then(r => r.json());
-      if (res && res.idToken) {
-        localStorage.setItem(TOKEN_KEY, JSON.stringify({ token: res.idToken, exp: Date.now() + 45 * 60 * 1000 }));
-        return res.idToken;
-      }
-    } catch {}
-    return null;
-  }
-
+  // Флаг asosh_config/siteClosed читается без входа: анонимный аккаунт Firebase посетителю сайта не нужен
   async function checkSiteClosed() {
+    if (document.visibilityState === "hidden") return;
     try {
       const cfg = await getFbConfig();
       if (!cfg) return;
-      let token = await getAuthToken(cfg.apiKey);
-      if (!token) return;
-      let res = await fetch(cfg.dbUrl + "/asosh_transfer/SYSTEM_MAINTENANCE.json?auth=" + token, { cache: "no-store" });
-      if (res.status === 401) {
-        localStorage.removeItem(TOKEN_KEY);
-        token = await getAuthToken(cfg.apiKey);
-        if (!token) return;
-        res = await fetch(cfg.dbUrl + "/asosh_transfer/SYSTEM_MAINTENANCE.json?auth=" + token, { cache: "no-store" });
-      }
+      const res = await fetch(cfg.dbUrl + "/asosh_config/siteClosed.json", { cache: "no-store" });
       if (!res.ok) return;
-      const data = await res.json();
-      renderStub(Boolean(data && data.payload === "closed"));
+      renderStub((await res.json()) === true);
     } catch {}
   }
 
+  try { localStorage.removeItem(TOKEN_KEY); } catch {}
   checkSiteClosed();
-  setInterval(checkSiteClosed, 4000);
+  setInterval(checkSiteClosed, 60000);
+  document.addEventListener("visibilitychange", checkSiteClosed);
 })();
