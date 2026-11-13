@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Обновления — АСОШ Таймер</title>
+  <meta name="description" content="Что нового в приложении АСОШ Таймер: подробно о каждой версии." />
+  <link rel="canonical" href="https://kafeevbogdan347-ui.github.io/asosh-timer-site/updates/" />
+  <meta name="theme-color" content="#060d1f" />
+  <link rel="icon" type="image/svg+xml" href="../icon.svg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="../style.css" />
+  <style>
+    .upd { max-width: 820px; }
+    .upd-hero { padding: 40px 0 8px; }
+    .upd-hero h1 { font-size: clamp(26px, 6vw, 46px); }
+    .upd-hero p { color: var(--muted); margin: 10px 0 0; }
+    .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 6px; }
+    .toc a { font-size: 13px; font-weight: 700; text-decoration: none; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--line-strong); color: var(--muted); }
+    .toc a:first-child { color: #04121f; background: var(--cyan); border-color: var(--cyan); }
+    .rel { margin-top: 34px; padding-top: 26px; border-top: 1px solid var(--line); }
+    .rel-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
+    .rel-head h2 { font-size: 26px; }
+    .date { color: var(--muted); font-size: 14px; font-weight: 600; }
+    .badge { font-size: 11px; font-weight: 800; padding: 3px 9px; border-radius: 999px; background: var(--cyan); color: #04121f; }
+    .items { list-style: none; padding: 0; margin: 14px 0 0; display: grid; gap: 10px; }
+    .items li { display: flex; gap: 14px; padding: 14px 16px; border-radius: 18px; background: var(--surface); border: 1px solid var(--line); }
+    .items .ic { font-size: 24px; line-height: 1.2; width: 32px; text-align: center; flex: none; }
+    .items p { margin: 2px 0 0; color: var(--muted); font-size: 15px; }
+    .feature { margin-top: 22px; padding: 22px; border-radius: 24px; background: linear-gradient(160deg, rgba(255,255,255,.07), rgba(255,255,255,.02)); border: 1px solid var(--line-strong); box-shadow: inset 0 1px 0 rgba(255,255,255,.18); }
+    .feature h3 { font-size: 20px; margin-bottom: 8px; }
+    .feature p, .feature li { color: var(--muted); }
+    .feature b { color: var(--text); }
+    .how { margin: 12px 0 0; padding: 12px 14px; border-radius: 14px; background: rgba(34,211,238,.08); border: 1px solid rgba(34,211,238,.25); font-size: 15px; }
+    .sounds { display: grid; grid-template-columns: repeat(auto-fill, minmax(170px, 1fr)); gap: 8px; margin-top: 14px; }
+    .snd { text-align: left; font: inherit; color: var(--text); cursor: pointer; padding: 12px 14px; border-radius: 16px; background: rgba(255,255,255,.05); border: 1px solid var(--line-strong); box-shadow: inset 0 1px 0 rgba(255,255,255,.12); transition: transform .3s cubic-bezier(.3,1.6,.5,1), background .2s; }
+    .snd:hover { background: rgba(255,255,255,.1); }
+    .snd:active, .snd.on { transform: scale(.95); background: rgba(34,211,238,.16); }
+    .snd b { display: block; font-size: 15px; }
+    .snd span { display: block; font-size: 12.5px; color: var(--muted); line-height: 1.35; margin-top: 2px; }
+    .cmp { display: flex; gap: 10px; align-items: center; margin-top: 12px; font-size: 14px; color: var(--muted); flex-wrap: wrap; }
+    .cmp select { font: inherit; font-size: 14px; color: var(--text); background: var(--surface-2); border: 1px solid var(--line-strong); border-radius: 10px; padding: 6px 10px; }
+    .shots { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 14px; }
+    .shots figure { margin: 0; }
+    .shots img { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid var(--line); }
+    .shots figcaption { font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 6px; }
+    @media (max-width: 560px) { .shots { grid-template-columns: 1fr 1fr; } .shots figure:last-child { display: none; } }
+  </style>
+</head>
+<body>
+  <div class="bg-glow" aria-hidden="true"></div>
+  <header class="nav">
+    <div class="wrap nav-inner">
+      <a class="brand" href="../">
+        <img src="../icon.svg" alt="" width="32" height="32" />
+        <span>АСОШ Таймер</span>
+      </a>
+      <nav class="nav-links" aria-label="Разделы">
+        <a href="../#features">Возможности</a>
+        <a href="#v16-23">Последнее</a>
+        <a href="#history">История</a>
+      </nav>
+      <a class="btn btn-small" href="../#download">Установить</a>
+    </div>
+  </header>
+
+  <main class="section">
+    <div class="wrap upd">
+      <div class="upd-hero">
+        <h1>Обновления</h1>
+        <p>Что нового в АСОШ Таймер — подробно о каждой версии. В приложении это окно «Что нового» с кнопкой «Подробнее».</p>
+        <nav class="toc" aria-label="Версии"><a href="#v16-23">v16.23</a><a href="#v16-22">v16.22</a><a href="#v16-21">v16.21</a><a href="#v16-20">v16.20</a><a href="#v16-19">v16.19</a><a href="#v16-18">v16.18</a><a href="#v16-17">v16.17</a><a href="#v16-12">v16.12</a><a href="#v16-11">v16.11</a><a href="#v16-10">v16.10</a><a href="#v16-9">v16.9</a><a href="#v16-8">v16.8</a><a href="#v16-7">v16.7</a><a href="#v16-6">v16.6</a><a href="#v16-5">v16.5</a><a href="#v16-4">v16.4</a><a href="#v16-3">v16.3</a><a href="#v16-2">v16.2</a><a href="#v16-1">v16.1</a><a href="#v16-0">v16.0</a><a href="#v15-2">v15.2</a><a href="#v15-1">v15.1</a><a href="#4-ноября-2026">4 ноября 2026</a><a href="#26-октября-2026">26 октября 2026</a></nav>
+      </div>
+
+      <section class="rel" id="v16-23">
+        <div class="rel-head"><h2>v16.23</h2><span class="date">14 ноября 2026</span><span class="badge">НОВОЕ</span></div>
+
+        <div class="feature">
+          <h3>🔊 Новые звуки «АСОШ»</h3>
+          <p>Раньше звуки были простыми «пиликами». Теперь есть отдельный набор в духе iPhone: <b>тихий, короткий и мягкий</b>. В его основе маримба и стекло, плюс лёгкое эхо, как в небольшой комнате. Все звуки создаются прямо в приложении, без файлов, поэтому APK не стал тяжелее и всё работает без интернета.</p>
+          <p class="how">Как включить: <b>Опции → Звук → Звуковой профиль → «АСОШ: мягкие звуки»</b>. Старые профили остались, вернуться можно в любой момент.</p>
+          <p style="margin-top:16px">Послушай прямо здесь, нажми на любой звук:</p>
+          <div class="cmp">Набор:
+            <select id="prof" aria-label="Набор звуков"><option value="5">АСОШ — новый</option><option value="1">Классический — старый</option></select>
+          </div>
+          <div class="sounds"><button type="button" class="snd" data-s="click"><b>Клик</b><span>тихий «тик», как клавиатура телефона</span></button><button type="button" class="snd" data-s="nav"><b>Переход</b><span>мягкий «поп» при смене экрана</span></button><button type="button" class="snd" data-s="settings"><b>Переключатель</b><span>два щелчка, как у тумблера</span></button><button type="button" class="snd" data-s="flip"><b>Карточка</b><span>лёгкий «вжух» в играх</span></button><button type="button" class="snd" data-s="coin"><b>Уведомление</b><span>две ноты маримбы вверх</span></button><button type="button" class="snd" data-s="star"><b>Звезда</b><span>стеклянный перезвон</span></button><button type="button" class="snd" data-s="combo"><b>Комбо</b><span>три быстрые ноты</span></button><button type="button" class="snd" data-s="warn"><b>Скоро звонок</b><span>три мягкие ноты вниз</span></button><button type="button" class="snd" data-s="bell"><b>🔔 Звонок АСОШ</b><span>перелив маримбы дважды и стеклянный хвост</span></button><button type="button" class="snd" data-s="pomodoro"><b>Помодоро</b><span>аккорд «пора отдохнуть»</span></button><button type="button" class="snd" data-s="levelup"><b>Новый уровень</b><span>взлёт и стеклянный аккорд</span></button><button type="button" class="snd" data-s="victory"><b>Победа</b><span>арпеджио и сверкающий хвост</span></button><button type="button" class="snd" data-s="gameover"><b>Проигрыш</b><span>две спокойные ноты вниз, без драмы</span></button><button type="button" class="snd" data-s="buzzer"><b>Ошибка</b><span>два глухих стука, как при неверном пароле</span></button></div>
+          <p style="margin-top:14px;font-size:14px">Новый звонок АСОШ играет и в «Симуляторе звонков» на экране «Звонки», если выбран набор «АСОШ».</p>
+        </div>
+
+        <div class="feature">
+          <h3>💎 Liquid Glass</h3>
+          <p>При графике «Максимум» приложение превращается в <b>жидкое стекло</b>:</p>
+          <ul>
+            <li><b>Карточки</b> прозрачные, со светлым краем сверху и бликом в углу. Цвет темы просвечивает сквозь них.</li>
+            <li><b>Нижняя панель</b> — стеклянная капсула. На Android и в Chrome фон под ней ещё и преломляется, как через линзу.</li>
+            <li><b>Кнопки</b> тоже стеклянные и упруго пружинят при нажатии.</li>
+          </ul>
+          <p class="how">Как включить: <b>Опции → Производительность → Качество графики → «Максимум»</b>. В режимах «Обычное» и «Экономия» всё как раньше, так что на слабых телефонах ничего не тормозит.</p>
+          <p style="margin-top:12px;font-size:14px">Темы со своим стилем (Тетрадь, Пиксели, Комикс, Минимализм, AMOLED, Крафт, Терминал, Первая версия) остались как были: стекло бы их испортило. На iPhone стекло размытое, но без эффекта линзы, его Safari пока не умеет.</p>
+          <div class="shots">
+            <figure><img src="../img/updates/glass-dark.jpg" alt="Главный экран в стиле Liquid Glass, тёмная тема" loading="lazy" width="554" height="1200" /><figcaption>Тёмная</figcaption></figure>
+            <figure><img src="../img/updates/glass-space.jpg" alt="Настройки в стиле Liquid Glass, тема Космос" loading="lazy" width="554" height="1200" /><figcaption>Космос</figcaption></figure>
+            <figure><img src="../img/updates/glass-light.jpg" alt="Главный экран в стиле Liquid Glass, тема Сакура" loading="lazy" width="554" height="1200" /><figcaption>Сакура</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>📰 Сайт обновлений</h3>
+          <p>Эта страница. Окно «Что нового» в приложении теперь показывает коротко, что добавили, а кнопка <b>«Подробнее об обновлении»</b> ведёт сюда.</p>
+        </div>
+      </section>
+
+      <div id="history"></div>
+      <section class="rel" id="v16-22"><div class="rel-head"><h2>v16.22</h2><span class="date">13 ноября 2026</span></div><ul class="items"><li><span class="ic">🎒</span><div><b>Добавлен 2Б класс (2 смена)</b><p>В АСОШ Таймер появилось полное расписание уроков и звонков для 2Б класса на I полугодие (понедельник — пятница, 2-я смена).</p></div></li><li><span class="ic">🏅</span><div><b>Исправлены бейджики рядом с именами</b><p>Значки «🛠️ Разработчик», «🏆 Ветеран» и «🌱 Новичок» снова отображаются и обновляются в Профиле, Чате, Рейтинге и карточках пользователей.</p></div></li><li><span class="ic">🛠</span><div><b>Большой фикс багов по всему приложению</b><p>Исправлены рекорды и таймеры в играх, счётчик Помодоро, добавление друзей из чата, текущая четверть по дате, звонки при смене настроек и статистика в Опциях.</p></div></li></ul></section>
+<section class="rel" id="v16-21"><div class="rel-head"><h2>v16.21</h2><span class="date">13 ноября 2026</span></div><ul class="items"><li><span class="ic">❤️</span><div><b>Друзья через аккаунт</b><p>Открой профиль одноклассника из рейтинга или чата и отправь заявку. Принять её можно в своём Профиле — друзья видны на всех твоих устройствах.</p></div></li><li><span class="ic">📊</span><div><b>Итоги четверти в дневнике</b><p>Какая оценка выходит по каждому предмету и сколько пятёрок нужно, чтобы дотянуть до следующей.</p></div></li><li><span class="ic">📘</span><div><b>Напоминание о домашке</b><p>Вечером приложение напомнит, если на завтра что-то не сделано. Время меняется в Опциях.</p></div></li><li><span class="ic">📢</span><div><b>Объявления с отметкой «прочитано»</b><p>Нажми «👍 Прочитал(а)» под объявлением — учитель увидит, кто из класса ознакомился.</p></div></li><li><span class="ic">👨‍👩‍👧</span><div><b>Уведомления родителям</b><p>Родитель сразу узнаёт о новой оценке или пропуске ребёнка.</p></div></li><li><span class="ic">🖼</span><div><b>Расписание картинкой</b><p>На экране «Уроки» кнопка «📤 Картинкой» — расписание на неделю, чтобы отправить в чат класса.</p></div></li><li><span class="ic">📱</span><div><b>Виджет на экран телефона</b><p>В APK для Android: виджет «АСОШ Таймер» показывает, сколько осталось до звонка и какой кабинет следующий. Удержи палец на рабочем столе → Виджеты.</p></div></li></ul></section>
+<section class="rel" id="v16-20"><div class="rel-head"><h2>v16.20</h2><span class="date">13 ноября 2026</span></div><ul class="items"><li><span class="ic">🔒</span><div><b>Профиль защищён</b><p>Твой профиль теперь может менять только ты. Одноклассники видят имя, ник, аватар, статус и грамоты, а фото и средний балл остаются на телефоне.</p></div></li><li><span class="ic">🛡</span><div><b>Значок «Разработчик» не подделать</b><p>Значок есть только у настоящих разработчиков приложения, а писать в чат от чужого имени больше нельзя.</p></div></li><li><span class="ic">⬇️</span><div><b>Обновление на Android</b><p>Кнопка на Главной снова скачивает новый APK — он ставится поверх, данные сохраняются.</p></div></li></ul></section>
+<section class="rel" id="v16-19"><div class="rel-head"><h2>v16.19</h2><span class="date">13 ноября 2026</span></div><ul class="items"><li><span class="ic">🔔</span><div><b>Обновление по вашему желанию</b><p>Мы отказались от автоматических перезагрузок. Когда выходит новая версия, сверху появляется красная плашка, а на странице «Главная» — кнопка «Обновиться», чтобы обновиться в удобный момент.</p></div></li></ul></section>
+<section class="rel" id="v16-18"><div class="rel-head"><h2>v16.18</h2><span class="date">13 ноября 2026</span></div><ul class="items"><li><span class="ic">👤</span><div><b>Полноценные профили в Чатах и Онлайне</b><p>Нажми на любого одноклассника в чате или рейтинге «Онлайн класса» — откроется его полная страница профиля с грамотами, статусом и кнопкой дружбы.</p></div></li><li><span class="ic">🏅</span><div><b>Бейджики рядом с @именем</b><p>В профилях, чате и рейтинге появились значки: 🛠️ Разработчик (за открытие панели разработчика), 🌱 Новичок (меньше 2 дней) и 🏆 Ветеран (больше месяца).</p></div></li><li><span class="ic">✨</span><div><b>Сплеши под каждую тему</b><p>Добавлено более 70 новых сплешей для всех тем оформления приложения — от «Тетради в клетку» и «Космоса» до праздничных тем.</p></div></li></ul></section>
+<section class="rel" id="v16-17"><div class="rel-head"><h2>v16.17</h2><span class="date">12 ноября 2026</span></div><ul class="items"><li><span class="ic">🔄</span><div><b>Автоматические обновления без скачивания</b><p>Новые версии АСОШ Таймера теперь подтягиваются автоматически прямо внутри приложения — скачивать установочный файл заново больше не нужно.</p></div></li><li><span class="ic">🛠️</span><div><b>Удобный оффлайн-режим при техработах</b><p>Во время остановки серверов приложение работает как обычно, а онлайн-разделы помечаются значком ✕.</p></div></li><li><span class="ic">📱</span><div><b>Один аккаунт на всех устройствах</b><p>Ник, аватар, статус и «о себе» сохраняются в аккаунте: войди с телефона и компьютера — профиль будет одинаковым.</p></div></li><li><span class="ic">🏆</span><div><b>Рейтинг без двойников</b><p>В рейтинге одна строка на человека, а время с телефона и компьютера складывается. В рейтинг попадают ученики с аккаунтом.</p></div></li></ul></section>
+<section class="rel" id="v16-12"><div class="rel-head"><h2>v16.12</h2><span class="date">12 ноября 2026</span></div><ul class="items"><li><span class="ic">🫧</span><div><b>Логотип Асошика на всех устройствах</b><p>Фирменный значок Асошика теперь чётко отображается на компьютерах Windows, телефонах и сайте без пустых квадратиков.</p></div></li><li><span class="ic">🧮</span><div><b>Улучшенный калькулятор и стабильность</b><p>Калькулятор считает выражения под корнем со скобками, исправлены мелкие ошибки в настройках и таймере.</p></div></li></ul></section>
+<section class="rel" id="v16-11"><div class="rel-head"><h2>v16.11</h2><span class="date">12 ноября 2026</span></div><ul class="items"><li><span class="ic">🎄</span><div><b>Праздничные темы</b><p>Новый год, 23 февраля, 8 Марта, День Победы, 1 сентября и День рождения — теперь это полноценные темы в Опциях → Оформление, со снегом, салютом и лепестками. Включай любую, когда захочется.</p></div></li></ul></section>
+<section class="rel" id="v16-10"><div class="rel-head"><h2>v16.10</h2><span class="date">11 ноября 2026</span></div><ul class="items"><li><span class="ic">🏆</span><div><b>Рейтинг онлайна для всего класса</b><p>Теперь в рейтинге сразу видно всех одноклассников. Скрыть себя можно в Опциях → Приватность.</p></div></li></ul></section>
+<section class="rel" id="v16-9"><div class="rel-head"><h2>v16.9</h2><span class="date">11 ноября 2026</span></div><ul class="items"><li><span class="ic">🛡</span><div><b>Защита от спама и взлома</b><p>Сервер сам не даёт засыпать чат и домашку сообщениями, а коды классов проверяются надёжнее. Коды остались прежними.</p></div></li><li><span class="ic">🚨</span><div><b>Защитный режим</b><p>Если в приложении что-то подозрительное, администратор одним переключателем останавливает отправку на сервер. Расписание и таймер работают всегда.</p></div></li><li><span class="ic">🏆</span><div><b>Рейтинг онлайна заработал</b><p>Онлайн класса снова показывает одноклассников и их время.</p></div></li></ul></section>
+<section class="rel" id="v16-8"><div class="rel-head"><h2>v16.8</h2><span class="date">11 ноября 2026</span></div><ul class="items"><li><span class="ic">🫧</span><div><b>Асошик в нижней панели</b><p>Кнопка «Асошик» теперь справа от «Опций» — открывается с любого экрана.</p></div></li><li><span class="ic">📱</span><div><b>Панель не уезжает на iPhone</b><p>Нижняя панель остаётся на месте, когда листаешь, и страница больше не увеличивается сама при вводе текста.</p></div></li></ul></section>
+<section class="rel" id="v16-7"><div class="rel-head"><h2>v16.7</h2><span class="date">11 ноября 2026</span></div><ul class="items"><li><span class="ic">📷</span><div><b>Асошику — фото, галерея или файл</b><p>Нажми на камеру рядом со строкой ввода: можно сфотографировать задание, выбрать фото из галереи или прислать файл, в том числе PDF.</p></div></li></ul></section>
+<section class="rel" id="v16-6"><div class="rel-head"><h2>v16.6</h2><span class="date">11 ноября 2026</span></div><ul class="items"><li><span class="ic">🏆</span><div><b>Онлайн класса</b><p>Рейтинг: кто больше всех в приложении на этой неделе, кто сейчас в сети, и профиль одноклассника. Участвуют только те, кто сам включил «Показывать меня».</p></div></li></ul></section>
+<section class="rel" id="v16-5"><div class="rel-head"><h2>v16.5</h2><span class="date">11 ноября 2026</span></div><ul class="items"><li><span class="ic">🎄</span><div><b>Праздники в приложении</b><p>На Новый год падает снег и горит гирлянда, на 9 Мая — салют, на 8 Марта — цветы. Посмотреть заранее: Опции → Оформление.</p></div></li><li><span class="ic">🎂</span><div><b>Поздравление с днём рождения</b><p>Укажи день рождения в профиле — в этот день приложение тебя поздравит.</p></div></li></ul></section>
+<section class="rel" id="v16-4"><div class="rel-head"><h2>v16.4</h2><span class="date">10 ноября 2026</span></div><ul class="items"><li><span class="ic">🎙</span><div><b>Асошик слышит и говорит</b><p>Нажми микрофон, скажи вопрос и нажми ещё раз — Асошик поймёт и ответит вслух. Теперь работает и в приложении для Android.</p></div></li></ul></section>
+<section class="rel" id="v16-3"><div class="rel-head"><h2>v16.3</h2><span class="date">10 ноября 2026</span></div><ul class="items"><li><span class="ic">🌍</span><div><b>Все экраны на 9 языках</b><p>Дневник, журнал, аккаунты, игры, настройки и подсказки теперь переведены. Даты тоже пишутся на выбранном языке.</p></div></li><li><span class="ic">🫧</span><div><b>Асошик на твоём языке</b><p>Асошик отвечает на языке, который выбран в приложении.</p></div></li></ul></section>
+<section class="rel" id="v16-2"><div class="rel-head"><h2>v16.2</h2><span class="date">10 ноября 2026</span></div><ul class="items"><li><span class="ic">⬆️</span><div><b>Напоминание об обновлении</b><p>Когда выйдет новая версия, приложение само скажет «Обновите до последней версии» и даст ссылку на скачивание.</p></div></li><li><span class="ic">👁</span><div><b>Показать пароль</b><p>Кнопка «Показать» появилась и в смене пароля.</p></div></li></ul></section>
+<section class="rel" id="v16-1"><div class="rel-head"><h2>v16.1</h2><span class="date">10 ноября 2026</span></div><ul class="items"><li><span class="ic">⏱</span><div><b>Таймер стал точнее</b><p>Вторая смена, нулевой урок и окна считаются правильно: таймер ждёт первый настоящий урок, а окно показывает как свободное время.</p></div></li><li><span class="ic">🔢</span><div><b>Номера уроков как на стенде</b><p>Во второй смене уроки снова идут с нулевого — в расписании, заменах и у Асошика.</p></div></li><li><span class="ic">📅</span><div><b>Срок у домашки</b><p>Укажи, на какой день задано. Ближайшее — сверху, просроченное подсвечено. Срок виден и в домашке класса.</p></div></li><li><span class="ic">🔔</span><div><b>Новые оценки</b><p>Учитель поставил оценку — придёт сообщение, на плитке «Дневник» появится значок, а новая оценка подсвечена.</p></div></li><li><span class="ic">🔑</span><div><b>Смена пароля</b><p>Опции → «Аккаунт» → «Сменить пароль».</p></div></li><li><span class="ic">🔒</span><div><b>Надёжнее и чище</b><p>PIN больше не хранится в открытом виде и блокируется после неверных попыток. В выборе класса — только настоящие классы школы. Рюкзак каждый день собирается заново.</p></div></li></ul></section>
+<section class="rel" id="v16-0"><div class="rel-head"><h2>v16.0</h2><span class="date">9 ноября 2026</span></div><ul class="items"><li><span class="ic">🔑</span><div><b>Аккаунты</b><p>Логин и пароль: дневник, оценки и режим учителя работают на любом телефоне. Опции → «Аккаунт».</p></div></li><li><span class="ic">📒</span><div><b>Дневник</b><p>Оценки по предметам, средний балл, пропуски и комментарии учителей. Плитка «Дневник» на главном.</p></div></li><li><span class="ic">👨‍👩‍👧</span><div><b>Для родителей</b><p>У каждого ученика есть код для родителей: родитель видит оценки, домашку, расписание и объявления. Отключить родителя можно в «Дневнике».</p></div></li><li><span class="ic">🫧</span><div><b>Асошик делает дела</b><p>Попроси: «запиши ДЗ по алгебре», «добавь контрольную в календарь», «поставь мне 5 по физике», «включи тему Терминал». Публикации для класса — только после твоего подтверждения.</p></div></li><li><span class="ic">👩‍🏫</span><div><b>Электронный журнал</b><p>Учитель выбирает класс и предмет и ставит 5/4/3/2 или «Н» с комментарием. Учеников класса подтверждает сам.</p></div></li></ul></section>
+<section class="rel" id="v15-2"><div class="rel-head"><h2>v15.2</h2><span class="date">9 ноября 2026</span></div><ul class="items"><li><span class="ic">📷</span><div><b>Фото Асошику</b><p>Сфотографируй задание в тетради, на доске или в учебнике — Асошик прочитает его и решит по шагам.</p></div></li><li><span class="ic">📝</span><div><b>Асошик решает домашку</b><p>Полное решение с объяснением каждого шага и проверкой.</p></div></li><li><span class="ic">🫧</span><div><b>Асошик везде</b><p>Кнопки «Помочь с ДЗ» в домашке, «Готовлюсь» в расписании и на главном, «Объясни» у формул.</p></div></li><li><span class="ic">🎨</span><div><b>6 новых тем</b><p>Мастерская, Терминал, Ягодный смузи, Лаванда, Пустыня и Утро у моря.</p></div></li></ul></section>
+<section class="rel" id="v15-1"><div class="rel-head"><h2>v15.1</h2><span class="date">8 ноября 2026</span></div><ul class="items"><li><span class="ic">🫧</span><div><b>Асошик — ИИ-помощник</b><p>Знает твоё расписание, кабинеты и домашку. Решит задание и объяснит по шагам, как его сделать. Карточка «Спроси Асошика» на главном.</p></div></li><li><span class="ic">👉</span><div><b>«Дальше» на главном экране</b><p>Следующий урок, время, кабинет и этаж — сразу под таймером.</p></div></li><li><span class="ic">🗺</span><div><b>Поиск кабинетов</b><p>Напиши номер, предмет или «актовый зал» — покажем этаж и твои уроки там.</p></div></li><li><span class="ic">⏱</span><div><b>Сокращённые уроки</b><p>Включаются на сегодня или завтра в Опциях: 30, 35 или 40 минут. Таймер и напоминания перестроятся сами.</p></div></li><li><span class="ic">📅</span><div><b>Кабинеты в расписании</b><p>Заполнили пропуски, музыка теперь в актовом зале.</p></div></li><li><span class="ic">🌗</span><div><b>Смена ставится сама</b><p>6, 7 и 8 классы — вторая смена, остальные — первая. Выбирать вручную больше не нужно.</p></div></li><li><span class="ic">✨</span><div><b>Больше сплешей</b><p>Скибиди, Гравити Фолз, Майнкрафт и Роблокс. И теперь они видны в любой теме.</p></div></li></ul></section>
+<section class="rel" id="4-ноября-2026"><div class="rel-head"><h2>4 ноября 2026</h2></div><ul class="items"><li><span class="ic">🛡</span><div><b>Фильтр мата</b><p>Общие ДЗ и замены проверяются перед отправкой классу.</p></div></li><li><span class="ic">📺</span><div><b>Экран для ТВ</b><p>Таймер на всю ширину экрана — для телевизора в коридоре.</p></div></li></ul></section>
+<section class="rel" id="26-октября-2026"><div class="rel-head"><h2>26 октября 2026</h2></div><ul class="items"><li><span class="ic">👩‍🏫</span><div><b>Режим учителя</b><p>Вход по одноразовому коду, объявления классу и всей школе, домашка от учителя.</p></div></li><li><span class="ic">🎨</span><div><b>6 новых тем</b><p>Загляни в Опции → Оформление.</p></div></li></ul></section>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <div class="brand">
+        <img src="../icon.svg" alt="" width="28" height="28" />
+        <span>АСОШ Таймер</span>
+      </div>
+      <a class="footer-link" href="../">На главную</a>
+    </div>
+  </footer>
+  <script src="sounds.js"></script>
+  <script>
+    document.querySelectorAll('.snd').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var p = document.getElementById('prof').value;
+        try { AsoshAudio.playSound(b.dataset.s, p); } catch (e) {}
+        b.classList.add('on'); setTimeout(function () { b.classList.remove('on'); }, 250);
+      });
+    });
+  </script>
+</body>
+</html>
