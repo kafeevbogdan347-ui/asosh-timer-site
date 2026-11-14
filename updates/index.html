@@ -47,6 +47,8 @@
     .shots img { width: 100%; height: auto; display: block; border-radius: 18px; border: 1px solid var(--line); }
     .shots figcaption { font-size: 12.5px; color: var(--muted); text-align: center; margin-top: 6px; }
     @media (max-width: 560px) { .shots { grid-template-columns: 1fr 1fr; } .shots figure:last-child { display: none; } }
+    .shots.wide { grid-template-columns: 1fr 1fr; }
+    @media (max-width: 560px) { .shots.wide { grid-template-columns: 1fr; } .shots.wide figure:last-child { display: block; } }
     .fixes { margin-top: 12px; padding: 14px 18px; border-radius: 18px; background: rgba(251,191,36,.06); border: 1px solid rgba(251,191,36,.22); }
     .fixes h3 { font-size: 15px; margin: 0 0 8px; color: var(--amber); }
     .fixes ul { margin: 0; padding-left: 20px; display: grid; gap: 5px; }
@@ -63,7 +65,7 @@
       </a>
       <nav class="nav-links" aria-label="Разделы">
         <a href="../#features">Возможности</a>
-        <a href="#v16-23">Последнее</a>
+        <a href="#v16-24">Последнее</a>
         <a href="#history">История</a>
       </nav>
       <a class="btn btn-small" href="../#download">Установить</a>
@@ -75,11 +77,60 @@
       <div class="upd-hero">
         <h1>Обновления</h1>
         <p>Что нового в АСОШ Таймер — подробно о каждой версии: новые функции и все исправленные баги. В приложении это окно «Что нового» с кнопкой «Подробнее».</p>
-        <nav class="toc" aria-label="Версии"><a href="#v16-23">v16.23</a><a href="#v16-22">v16.22</a><a href="#v16-21">v16.21</a><a href="#v16-20">v16.20</a><a href="#v16-19">v16.19</a><a href="#v16-18">v16.18</a><a href="#v16-17">v16.17</a><a href="#v16-12">v16.12</a><a href="#v16-11">v16.11</a><a href="#v16-10">v16.10</a><a href="#v16-9">v16.9</a><a href="#v16-8">v16.8</a><a href="#v16-7">v16.7</a><a href="#v16-6">v16.6</a><a href="#v16-5">v16.5</a><a href="#v16-4">v16.4</a><a href="#v16-3">v16.3</a><a href="#v16-2">v16.2</a><a href="#v16-1">v16.1</a><a href="#v16-0">v16.0</a><a href="#v15-2">v15.2</a><a href="#v15-1">v15.1</a><a href="#4-ноября-2026">4 ноября 2026</a><a href="#26-октября-2026">26 октября 2026</a></nav>
+        <nav class="toc" aria-label="Версии"><a href="#v16-24">v16.24</a><a href="#v16-23">v16.23</a><a href="#v16-22">v16.22</a><a href="#v16-21">v16.21</a><a href="#v16-20">v16.20</a><a href="#v16-19">v16.19</a><a href="#v16-18">v16.18</a><a href="#v16-17">v16.17</a><a href="#v16-12">v16.12</a><a href="#v16-11">v16.11</a><a href="#v16-10">v16.10</a><a href="#v16-9">v16.9</a><a href="#v16-8">v16.8</a><a href="#v16-7">v16.7</a><a href="#v16-6">v16.6</a><a href="#v16-5">v16.5</a><a href="#v16-4">v16.4</a><a href="#v16-3">v16.3</a><a href="#v16-2">v16.2</a><a href="#v16-1">v16.1</a><a href="#v16-0">v16.0</a><a href="#v15-2">v15.2</a><a href="#v15-1">v15.1</a><a href="#4-ноября-2026">4 ноября 2026</a><a href="#26-октября-2026">26 октября 2026</a></nav>
       </div>
 
+      <section class="rel" id="v16-24">
+        <div class="rel-head"><h2>v16.24</h2><span class="date">14 ноября 2026</span><span class="badge">НОВОЕ</span></div>
+
+        <div class="feature">
+          <h3>🖥 На весь экран на компьютере</h3>
+          <p>Раньше на ноутбуке и мониторе приложение было <b>узкой колонкой посередине</b>, а по бокам пусто. Теперь на широких экранах (ноутбук, монитор, планшет, повёрнутый боком) оно занимает всю ширину:</p>
+          <ul>
+            <li><b>Плитки на Главной</b> стоят по 6 в ряд, иконки и подписи крупнее.</li>
+            <li><b>Нижняя панель</b> шире и выше, значки крупнее, по ним легко попасть мышкой.</li>
+            <li>Режим «Компактно» и Экран для ТВ остались как были.</li>
+          </ul>
+          <div class="shots wide">
+            <figure><img src="../img/updates/pc-before.jpg" alt="Главный экран на мониторе Full HD до обновления: узкая колонка" loading="lazy" width="720" height="405" /><figcaption>Было</figcaption></figure>
+            <figure><img src="../img/updates/pc-after.jpg" alt="Главный экран на мониторе Full HD после обновления: на всю ширину" loading="lazy" width="720" height="405" /><figcaption>Стало</figcaption></figure>
+          </div>
+        </div>
+
+        <div class="feature">
+          <h3>💻 Программа для Windows и macOS</h3>
+          <p>Окно сразу открывается <b>развёрнутым на весь экран</b>. На большом мониторе программа сама увеличивает всё, как будто нажали Ctrl и «+» в браузере: текст, кнопки и панель становятся крупнее. Если сделать окно меньше, масштаб подстроится обратно.</p>
+          <p class="how">Полноэкранный режим без рамки окна: <b>F11</b> на Windows, <b>Ctrl + Cmd + F</b> на Mac.</p>
+        </div>
+
+        <div class="feature">
+          <h3>📱 Android и Samsung</h3>
+          <ul>
+            <li><b>APK на весь экран</b> на любой версии Android: фон приложения уходит под статус-бар и вырез камеры. Раньше на Android 13–14 (например, Samsung Galaxy A) сверху оставалась отдельная полоса.</li>
+            <li><b>Часы и батарею видно</b> на любой теме: на тёмных темах значки статус-бара светлые, на светлых — тёмные.</li>
+            <li>На телефонах со старой версией WebView больше нет <b>белых полос</b> сверху и снизу.</li>
+            <li>Приложение, установленное с сайта, теперь <b>поворачивается</b> вместе с экраном на планшетах и Galaxy Fold.</li>
+          </ul>
+        </div>
+
+        <div class="feature">
+          <h3>🍏 iPhone</h3>
+          <p>Если добавить сайт через <b>«Поделиться → На экран Домой»</b>, теперь появляется настоящая иконка приложения. Раньше iPhone не понимал иконку и ставил вместо неё уменьшенный снимок страницы.</p>
+        </div>
+
+        <div class="fixes"><h3>🛠 Исправлено</h3><ul>
+          <li>На компьютере приложение было узкой колонкой посередине экрана, а по бокам оставалось пустое место.</li>
+          <li>Нижняя панель на компьютере была маленькой, по значкам трудно было попасть мышкой.</li>
+          <li>На iPhone при «На экран Домой» вместо иконки появлялся снимок страницы.</li>
+          <li>Chrome и Samsung Internet на Android не находили обычную картинку-иконку для установки (была только SVG).</li>
+          <li>В APK на Android 13–14 сверху оставалась отдельная полоса под статус-бар.</li>
+          <li>В APK часы и значки батареи могли сливаться с тёмным фоном, если в телефоне включена светлая тема.</li>
+          <li>Приложение, установленное с сайта, не поворачивалось на планшетах.</li>
+        </ul></div>
+      </section>
+
       <section class="rel" id="v16-23">
-        <div class="rel-head"><h2>v16.23</h2><span class="date">14 ноября 2026</span><span class="badge">НОВОЕ</span></div>
+        <div class="rel-head"><h2>v16.23</h2><span class="date">14 ноября 2026</span></div>
 
         <div class="feature">
           <h3>🔊 Новые звуки «АСОШ»</h3>
