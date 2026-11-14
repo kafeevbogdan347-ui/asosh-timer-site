@@ -11,6 +11,55 @@ document.querySelectorAll('[data-link]').forEach((el) => {
   }
 });
 
+// Версия, размер и дата файлов для скачивания. Сами файлы пересобираются при каждом изменении
+// приложения (apk.yml и desktop.yml в репозитории asosh-timer), а ссылки ведут на «последнюю сборку» —
+// здесь только подписи, чтобы на сайте всегда были свежие цифры без ручных правок.
+(function initReleaseInfo() {
+  const API = 'https://api.github.com/repos/kafeevbogdan347-ui/asosh-timer/releases/tags/';
+  const VERSION_URL = 'https://kafeevbogdan347-ui.github.io/asosh-timer/version.json';
+  const CACHE_KEY = 'asosh_site_release_v1';
+  const CACHE_MS = 30 * 60 * 1000; // GitHub даёт 60 запросов в час с одного адреса — не дёргаем его на каждый заход
+  const FILES = { apk: 'asosh-timer.apk', win: 'asosh-timer-win-x64.exe' };
+  const mb = (bytes) =>
+    (bytes / 1048576).toLocaleString('ru-RU', { maximumFractionDigits: bytes < 10 * 1048576 ? 1 : 0 }) + '\u00a0МБ';
+  const day = (iso) =>
+    new Date(iso).toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', timeZone: 'Asia/Yekaterinburg' });
+
+  async function load() {
+    try {
+      const cached = JSON.parse(localStorage.getItem(CACHE_KEY) || 'null');
+      if (cached && Date.now() - cached.at < CACHE_MS) return cached;
+    } catch {}
+    const get = (url) => fetch(url, { cache: 'no-store' }).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    const [ver, apk, desktop] = await Promise.all([
+      get(`${VERSION_URL}?t=${Date.now()}`),
+      get(API + 'apk-latest'),
+      get(API + 'desktop-latest'),
+    ]);
+    const assets = {};
+    for (const rel of [apk, desktop]) for (const a of rel?.assets || []) assets[a.name] = { size: a.size, at: a.updated_at };
+    const data = { at: Date.now(), version: ver?.version || '', assets };
+    if (Object.keys(assets).length) {
+      try { localStorage.setItem(CACHE_KEY, JSON.stringify(data)); } catch {}
+    }
+    return data;
+  }
+
+  load().then(({ version, assets }) => {
+    document.querySelectorAll('[data-link][data-size]').forEach((el) => {
+      const a = assets[FILES[el.dataset.link]];
+      if (a && a.size) el.textContent = el.textContent.replace(/ · [\d,]+\sМБ$/, '') + ' · ' + mb(a.size);
+    });
+    const ver = version ? `Версия ${version} · ` : '';
+    const apk = assets[FILES.apk];
+    const apkMeta = document.getElementById('apk-meta');
+    if (apk && apkMeta) apkMeta.textContent = `${ver}файл обновлён ${day(apk.at)}. Новые версии появляются здесь сами.`;
+    const win = assets[FILES.win];
+    const deskMeta = document.getElementById('desktop-meta');
+    if (win && deskMeta) deskMeta.textContent = `${ver}файлы обновлены ${day(win.at)}. Новые версии появляются здесь сами.`;
+  });
+})();
+
 // Детали iPhone поверх скриншотов: Dynamic Island, строка состояния и полоска «домой»
 const STATUS_ICONS =
   '<svg viewBox="0 0 18 12" aria-hidden="true"><rect x="0" y="8" width="3" height="4" rx="1" fill="currentColor"/><rect x="5" y="5.5" width="3" height="6.5" rx="1" fill="currentColor"/><rect x="10" y="3" width="3" height="9" rx="1" fill="currentColor"/><rect x="15" y="0" width="3" height="12" rx="1" fill="currentColor"/></svg>' +

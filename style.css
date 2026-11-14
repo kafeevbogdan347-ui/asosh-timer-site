@@ -491,6 +491,7 @@ h2 { font-size: clamp(28px, 3.8vw, 44px); font-weight: 700; letter-spacing: -0.0
 .platform h3 { font-size: 20px; }
 .platform ol { margin: 0 0 24px; padding-left: 20px; color: var(--muted); font-size: 15px; display: grid; gap: 8px; }
 .platform ol b { color: var(--text); font-weight: 700; }
+.dl-meta { margin: 10px 0 0; color: var(--muted); font-size: 13px; text-align: center; }
 
 .qr-row {
   display: flex;
